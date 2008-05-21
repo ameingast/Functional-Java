@@ -1,36 +1,38 @@
-package benchmark;
+package at.yomi.util.functional.benchmark;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-import functional.Filter;
-import functional.Folder;
-import functional.MapFolder;
-import functional.Mapper;
+import at.yomi.util.benchmark.Benchmark;
+import at.yomi.util.functional.functor.Filter;
+import at.yomi.util.functional.functor.Folder;
+import at.yomi.util.functional.functor.MapFolder;
+import at.yomi.util.functional.functor.Mapper;
+import at.yomi.util.functional.functor.parallel.ParallelMapper;
 
-public class Perf {
+public class FunctorBenchmark {
 	private static final Integer SIZE = 100000;
 
 	private static List<Integer> data = getData(SIZE);
 
 	public static void main(String[] args) {
-		//bmMapper();
-		//bmFolder();
-		//bmFilter();
-		bmMapFolder();
+		bmMapper();
+		// bmFolder();
+		// bmFilter();
+		// bmMapFolder();
 	}
 
 	private static void bmMapFolder() {
 		new Benchmark() {
 			public void benchmark() {
-				new MapFolder<Integer, Boolean, Integer>() {
-					public Integer ffold(Boolean b, Integer e) {
+				new MapFolder<Integer,Boolean,Integer>() {
+					public Integer fold(Boolean b, Integer e) {
 						return b ? e + 1 : e;
 					}
 
-					public Boolean fmap(Integer a) {
+					public Boolean map(Integer a) {
 						return 0 == a % 2;
 					}
 				}.apply(data, 0);
@@ -46,25 +48,25 @@ public class Perf {
 						evens++;
 			}
 		}.execute("Iterating count even");
-		
+
 		new Benchmark() {
 			public void benchmark() {
 				new MapFolder<Integer,Boolean,Integer>() {
-					public Integer ffold(Boolean b, Integer e) {
+					public Integer fold(Boolean b, Integer e) {
 						return b ? e + 1 : e;
 					}
 
-					public Boolean fmap(Integer a) {
+					public Boolean map(Integer a) {
 						return isPrime(a);
-					}					
+					}
 				}.apply(data, 0);
 			}
 		}.execute("MapFold (isPrime) (count)");
-		
+
 		new Benchmark() {
 			public void benchmark() {
 				Integer k = 0;
-				
+
 				for (Integer i : data)
 					if (isPrime(i))
 						k++;
@@ -99,7 +101,7 @@ public class Perf {
 	private static void bmFolder() {
 		new Benchmark() {
 			public void benchmark() {
-				new Folder<Integer, Integer>() {
+				new Folder<Integer,Integer>() {
 					public Integer fold(Integer a, Integer e) {
 						return a * e;
 					}
@@ -119,32 +121,47 @@ public class Perf {
 	}
 
 	private static void bmMapper() {
-		final List<Integer> r1 = new ArrayList<Integer>(SIZE);
-		final List<Integer> r2 = new ArrayList<Integer>(SIZE);
-		
-		new Benchmark() {
-			public void benchmark() {
-				r1.addAll(new Mapper<Integer, Integer>() {
-					public Integer map(Integer a) {
-						return a + 1;
-					}
-				}.apply(data));
-			}
-		}.execute("Mapping (+1)");
+		/*
+		 * new Benchmark() { public void benchmark() { new Mapper<Integer, Integer>() { public
+		 * Integer map(Integer a) { return a + 1; } }.apply(data); } }.execute("Mapping (+1)");
+		 * 
+		 * new Benchmark() { public void benchmark() { new ParallelMapper<Integer, Integer>(10) {
+		 * public Integer map(Integer a) { return a + 1; } }.apply(data); }
+		 * }.execute("(P-10)-Mapping (+1)");
+		 * 
+		 * new Benchmark() { public void benchmark() { List<Integer> c = new ArrayList<Integer>(SIZE);
+		 * 
+		 * for (Integer i : data) c.add(i + 1); } }.execute("Iterating (+1)");
+		 */
 
 		new Benchmark() {
 			public void benchmark() {
-				List<Integer> c = new ArrayList<Integer>(SIZE);
-				
-				for (Integer i : data)
-					c.add(i + 1);
-				r2.addAll(c);
+				new Mapper<Integer,Boolean>() {
+					public Boolean map(Integer a) {
+						return isPrime(a);
+					}
+				}.apply(data);
 			}
-		}.execute("Iterating (+1)");
-		
-		for (int i = 0; i < SIZE; i++)
-			if (!r1.get(i).equals(r2.get(i)))
-				System.err.println("err: " + r2.get(i) + " != " + r1.get(i));
+		}.execute("Mapping (isPrime)");
+
+		new Benchmark() {
+			public void benchmark() {
+				new ParallelMapper<Integer,Integer>(5) {
+					public Integer map(Integer a) {
+						return isPrime(a) ? a : 0;
+					}
+				}.apply(data);
+			}
+		}.execute("[5] Mapping (isPrime)");
+
+		new Benchmark() {
+			public void benchmark() {
+				List<Integer> primes = new ArrayList<Integer>();
+
+				for (Integer i : data)
+					primes.add(isPrime(i) ? i : 0);
+			}
+		}.execute("Iterating (isPrime)");
 	}
 
 	private static List<Integer> getData(Integer size) {
@@ -155,7 +172,7 @@ public class Perf {
 			c.add(r.nextInt());
 		return c;
 	}
-	
+
 	private static Boolean isPrime(Integer a) {
 		for (int i = 2; i < Math.sqrt(a); i++)
 			if (a % i == 0)

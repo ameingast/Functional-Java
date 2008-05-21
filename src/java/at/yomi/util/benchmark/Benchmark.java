@@ -1,9 +1,9 @@
-package benchmark;
+package at.yomi.util.benchmark;
 
 public abstract class Benchmark {
-	
+
 	public static Integer ROUNDS = 3;
-	
+
 	public abstract void benchmark();
 
 	public void execute(String title) {
@@ -14,7 +14,7 @@ public abstract class Benchmark {
 			System.out.print(".");
 		}
 		long end = System.currentTimeMillis();
-		System.out.println(".\t| Execution of " + title + " took:\t" + timeTaken(start, end) + " ms");
+		System.out.println(".\t| Execution took:\t" + timeTaken(start, end) + " ms");
 	}
 
 	private long timeTaken(long start, long end) {
