@@ -17,7 +17,7 @@ public class FunctorBenchmark {
 
 	private static List<Integer> data = getData(SIZE);
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		bmMapper();
 		// bmFolder();
 		// bmFilter();
@@ -26,13 +26,16 @@ public class FunctorBenchmark {
 
 	private static void bmMapFolder() {
 		new Benchmark() {
+			@Override
 			public void benchmark() {
 				new MapFolder<Integer,Boolean,Integer>() {
-					public Integer fold(Boolean b, Integer e) {
+					@Override
+					public Integer fold(final Boolean b, final Integer e) {
 						return b ? e + 1 : e;
 					}
 
-					public Boolean map(Integer a) {
+					@Override
+					public Boolean map(final Integer a) {
 						return 0 == a % 2;
 					}
 				}.apply(data, 0);
@@ -40,23 +43,27 @@ public class FunctorBenchmark {
 		}.execute("MapFold (even) (count)");
 
 		new Benchmark() {
+			@Override
 			public void benchmark() {
 				Integer evens = 0;
 
-				for (Integer i : data)
+				for (final Integer i : data)
 					if (0 == i % 2)
 						evens++;
 			}
 		}.execute("Iterating count even");
 
 		new Benchmark() {
+			@Override
 			public void benchmark() {
 				new MapFolder<Integer,Boolean,Integer>() {
-					public Integer fold(Boolean b, Integer e) {
+					@Override
+					public Integer fold(final Boolean b, final Integer e) {
 						return b ? e + 1 : e;
 					}
 
-					public Boolean map(Integer a) {
+					@Override
+					public Boolean map(final Integer a) {
 						return isPrime(a);
 					}
 				}.apply(data, 0);
@@ -64,10 +71,11 @@ public class FunctorBenchmark {
 		}.execute("MapFold (isPrime) (count)");
 
 		new Benchmark() {
+			@Override
 			public void benchmark() {
 				Integer k = 0;
 
-				for (Integer i : data)
+				for (final Integer i : data)
 					if (isPrime(i))
 						k++;
 			}
@@ -76,9 +84,11 @@ public class FunctorBenchmark {
 
 	private static void bmFilter() {
 		new Benchmark() {
+			@Override
 			public void benchmark() {
 				new Filter<Integer>() {
-					public boolean filter(Integer a) {
+					@Override
+					public boolean filter(final Integer a) {
 						return 0 == a % 2;
 					}
 				}.apply(data);
@@ -87,10 +97,11 @@ public class FunctorBenchmark {
 		}.execute("Filter even");
 
 		new Benchmark() {
+			@Override
 			public void benchmark() {
-				Collection<Integer> c = new ArrayList<Integer>();
+				final Collection<Integer> c = new ArrayList<Integer>();
 
-				for (Integer i : data)
+				for (final Integer i : data)
 					if (0 == i % 2)
 						c.add(i);
 			}
@@ -100,9 +111,11 @@ public class FunctorBenchmark {
 
 	private static void bmFolder() {
 		new Benchmark() {
+			@Override
 			public void benchmark() {
 				new Folder<Integer,Integer>() {
-					public Integer fold(Integer a, Integer e) {
+					@Override
+					public Integer fold(final Integer a, final Integer e) {
 						return a * e;
 					}
 				}.apply(data, 1);
@@ -110,10 +123,11 @@ public class FunctorBenchmark {
 		}.execute("Folding (*)");
 
 		new Benchmark() {
+			@Override
 			public void benchmark() {
 				Integer r = 1;
 
-				for (Integer i : data)
+				for (final Integer i : data)
 					r *= i;
 
 			}
@@ -135,9 +149,11 @@ public class FunctorBenchmark {
 		 */
 
 		new Benchmark() {
+			@Override
 			public void benchmark() {
 				new Mapper<Integer,Boolean>() {
-					public Boolean map(Integer a) {
+					@Override
+					public Boolean map(final Integer a) {
 						return isPrime(a);
 					}
 				}.apply(data);
@@ -145,9 +161,11 @@ public class FunctorBenchmark {
 		}.execute("Mapping (isPrime)");
 
 		new Benchmark() {
+			@Override
 			public void benchmark() {
 				new ParallelMapper<Integer,Integer>(5) {
-					public Integer map(Integer a) {
+					@Override
+					public Integer map(final Integer a) {
 						return isPrime(a) ? a : 0;
 					}
 				}.apply(data);
@@ -155,25 +173,26 @@ public class FunctorBenchmark {
 		}.execute("[5] Mapping (isPrime)");
 
 		new Benchmark() {
+			@Override
 			public void benchmark() {
-				List<Integer> primes = new ArrayList<Integer>();
+				final List<Integer> primes = new ArrayList<Integer>();
 
-				for (Integer i : data)
+				for (final Integer i : data)
 					primes.add(isPrime(i) ? i : 0);
 			}
 		}.execute("Iterating (isPrime)");
 	}
 
-	private static List<Integer> getData(Integer size) {
-		List<Integer> c = new ArrayList<Integer>(size);
-		Random r = new Random();
+	private static List<Integer> getData(final Integer size) {
+		final List<Integer> c = new ArrayList<Integer>(size);
+		final Random r = new Random();
 
 		for (int i = 0; i < size; i++)
 			c.add(r.nextInt());
 		return c;
 	}
 
-	private static Boolean isPrime(Integer a) {
+	private static Boolean isPrime(final Integer a) {
 		for (int i = 2; i < Math.sqrt(a); i++)
 			if (a % i == 0)
 				return false;

@@ -1,7 +1,8 @@
 package at.yomi.box;
 
 public class EmptyBox<A> extends Box<A> {
-	public A openOr(A a) {
+	@Override
+	public A openOr(final A a) {
 		return a;
 	}
 }

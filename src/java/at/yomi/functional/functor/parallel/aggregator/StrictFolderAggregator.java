@@ -9,12 +9,12 @@ import at.yomi.functional.functor.Folder;
 public class StrictFolderAggregator<A,B> extends FolderAggregator<A,B> {
 	protected SortedMap<Integer,A> items = new TreeMap<Integer,A>();
 
-	public StrictFolderAggregator(Integer itemCount, Folder<A,B> folder, B e) {
+	public StrictFolderAggregator(final Integer itemCount, final Folder<A,B> folder, final B e) {
 		super(itemCount, folder, e);
 	}
 
 	@Override
-	public synchronized void add(Map<Integer,A> items) {
+	public synchronized void add(final Map<Integer,A> items) {
 		this.items.putAll(items);
 		counter.returnTickets(items.size());
 	}
@@ -22,7 +22,7 @@ public class StrictFolderAggregator<A,B> extends FolderAggregator<A,B> {
 	@Override
 	public B getResult() throws InterruptedException {
 		counter.waitForLimit();
-		for (Integer ticket : items.keySet())
+		for (final Integer ticket : items.keySet())
 			e = folder.fold(items.get(ticket), e);
 		return e;
 	}

@@ -7,7 +7,7 @@ import at.yomi.functional.functor.parallel.TicketCounter;
 public abstract class Aggregator<A,B> {
 	protected final TicketCounter counter;
 
-	public Aggregator(Integer itemCount) {
+	public Aggregator(final Integer itemCount) {
 		this.counter = new TicketCounter(itemCount);
 	}
 

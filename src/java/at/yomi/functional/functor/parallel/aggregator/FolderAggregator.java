@@ -8,15 +8,15 @@ public class FolderAggregator<A,B> extends Aggregator<A,B> {
 	protected B e;
 	protected Folder<A,B> folder;
 
-	public FolderAggregator(Integer itemCount, Folder<A,B> folder, B e) {
+	public FolderAggregator(final Integer itemCount, final Folder<A,B> folder, final B e) {
 		super(itemCount);
 		this.folder = folder;
 		this.e = e;
 	}
 
 	@Override
-	public synchronized void add(Map<Integer,A> items) {
-		for (Integer ticket : items.keySet())
+	public synchronized void add(final Map<Integer,A> items) {
+		for (final Integer ticket : items.keySet())
 			e = folder.fold(items.get(ticket), e);
 		counter.returnTickets(items.size());
 	}

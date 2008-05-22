@@ -6,18 +6,18 @@ public abstract class Benchmark {
 
 	public abstract void benchmark();
 
-	public void execute(String title) {
+	public void execute(final String title) {
 		System.out.print("Starting: " + title + " ");
-		long start = System.currentTimeMillis();
+		final long start = System.currentTimeMillis();
 		for (int i = 0; i < ROUNDS; i++) {
 			benchmark();
 			System.out.print(".");
 		}
-		long end = System.currentTimeMillis();
+		final long end = System.currentTimeMillis();
 		System.out.println(".\t| Execution took:\t" + timeTaken(start, end) + " ms");
 	}
 
-	private long timeTaken(long start, long end) {
+	private long timeTaken(final long start, final long end) {
 		return ((end - start) / ROUNDS);
 	}
 }

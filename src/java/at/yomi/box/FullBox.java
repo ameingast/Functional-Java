@@ -1,11 +1,12 @@
 package at.yomi.box;
 
 public class FullBox<A> extends Box<A> {
-	public FullBox(A a) {
+	public FullBox(final A a) {
 		this.a = a;
 	}
 
-	public A openOr(A a) {
+	@Override
+	public A openOr(final A a) {
 		return this.a;
 	}
 }

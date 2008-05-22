@@ -10,37 +10,50 @@ import at.yomi.functional.functor.parallel.aggregator.FolderAggregator;
 
 public abstract class ParallelMapFolder<A,B,C> extends MapFolder<A,B,C> {
 
-	private MapFolder<A,B,C> self = this;
+	private final MapFolder<A,B,C> self = this;
 
-	private int workerCount;
+	protected final Integer workerCount;
+
+	protected final Integer commitInterval;
 
 	protected Folder<B,C> folder = new Folder<B,C>() {
+		@Override
 		public C fold(B b, C e) {
 			return self.fold(b, e);
 		}
 	};
 
-	public ParallelMapFolder(Integer workerCount) {
-		this.workerCount = workerCount;
+	public ParallelMapFolder() {
+		this(Worker.DEFAULT_WORKER_COUNT);
 	}
 
-	protected Aggregator<B,C> getFolderAggregator(Integer itemCount, C e) {
+	public ParallelMapFolder(final Integer workerCount) {
+		this(workerCount, Worker.DEFAULT_COMMIT_INTERVAL);
+	}
+
+	public ParallelMapFolder(final Integer workerCount, final Integer commitInterval) {
+		this.workerCount = workerCount;
+		this.commitInterval = commitInterval;
+	}
+
+	protected Aggregator<B,C> getFolderAggregator(final Integer itemCount, final C e) {
 		return new FolderAggregator<B,C>(itemCount, folder, e);
 	}
 
-	public C apply(List<A> as, C... cs) {
+	@Override
+	public C apply(final List<A> as, final C... cs) {
+		final Aggregator<B,C> aggregator = getFolderAggregator(as.size(), cs[0]);
 
-		Aggregator<B,C> aggregator = getFolderAggregator(as.size(), cs[0]);
-
-		Worker.createWorkers(workerCount, aggregator, as, true, new Functor<A,B,Object>() {
-			public B apply(A a, Object... cs) {
-				return map(a);
-			}
-		});
+		Worker.createWorkers(workerCount, commitInterval, aggregator, as, true,
+				new Functor<A,B,Object>() {
+					public B apply(final A a, final Object... cs) {
+						return map(a);
+					}
+				});
 
 		try {
 			return aggregator.getResult();
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			throw new RuntimeException(e);
 		}
 	}

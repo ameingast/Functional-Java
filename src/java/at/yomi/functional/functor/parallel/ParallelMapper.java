@@ -10,22 +10,35 @@ public abstract class ParallelMapper<A,B> extends Mapper<A,B> {
 
 	private final Integer workerCount;
 
-	public ParallelMapper(Integer workerCount) {
-		this.workerCount = workerCount;
+	private final Integer commitInterval;
+
+	public ParallelMapper() {
+		this(Worker.DEFAULT_WORKER_COUNT, Worker.DEFAULT_COMMIT_INTERVAL);
 	}
 
-	public List<B> apply(final List<A> as, final Object... os) {
-		ListAggregator<B> aggregator = new ListAggregator<B>(as.size());
+	public ParallelMapper(final Integer workerCount) {
+		this(workerCount, Worker.DEFAULT_COMMIT_INTERVAL);
+	}
 
-		Worker.createWorkers(workerCount, aggregator, as, true, new Functor<A,B,B>() {
-			public B apply(A a, B... bs) {
-				return map(a);
-			}
-		});
+	public ParallelMapper(final Integer workerCount, final Integer commitInterval) {
+		this.workerCount = workerCount;
+		this.commitInterval = commitInterval;
+	}
+
+	@Override
+	public List<B> apply(final List<A> as, final Object... os) {
+		final ListAggregator<B> aggregator = new ListAggregator<B>(as.size());
+
+		Worker.createWorkers(workerCount, commitInterval, aggregator, as, true,
+				new Functor<A,B,B>() {
+					public B apply(final A a, final B... bs) {
+						return map(a);
+					}
+				});
 
 		try {
 			return aggregator.getResult();
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			throw new RuntimeException(e);
 		}
 	}

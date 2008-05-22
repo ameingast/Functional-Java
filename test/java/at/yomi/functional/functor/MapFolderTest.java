@@ -9,11 +9,13 @@ import at.yomi.functional.BaseTest;
 public class MapFolderTest extends BaseTest {
 	protected MapFolder<Integer,Integer,String> getMulTenConcatAsStringFolder() {
 		return new MapFolder<Integer,Integer,String>() {
-			public String fold(Integer b, String e) {
+			@Override
+			public String fold(final Integer b, final String e) {
 				return e + b.toString();
 			}
 
-			public Integer map(Integer a) {
+			@Override
+			public Integer map(final Integer a) {
 				return 10 * a;
 			}
 		};
@@ -21,11 +23,13 @@ public class MapFolderTest extends BaseTest {
 
 	protected MapFolder<Integer,Integer,Integer> getAddOneSumFolder() {
 		return new MapFolder<Integer,Integer,Integer>() {
-			public Integer fold(Integer b, Integer e) {
+			@Override
+			public Integer fold(final Integer b, final Integer e) {
 				return e + b;
 			}
 
-			public Integer map(Integer a) {
+			@Override
+			public Integer map(final Integer a) {
 				return a + 1;
 			}
 		};
@@ -33,20 +37,20 @@ public class MapFolderTest extends BaseTest {
 
 	@Test
 	public void testAddOneAndSum() {
-		Integer fs = getAddOneSumFolder().apply(as, 0);
+		final Integer fs = getAddOneSumFolder().apply(as, 0);
 
 		Integer result = 0;
-		for (Integer i : as)
+		for (final Integer i : as)
 			result += i + 1;
 		assertEquals(result, fs);
 	}
 
 	@Test
 	public void testMulTenConcatAsString() {
-		String fs = getMulTenConcatAsStringFolder().apply(as, "");
+		final String fs = getMulTenConcatAsStringFolder().apply(as, "");
 
 		String result = "";
-		for (Integer i : as)
+		for (final Integer i : as)
 			result += new Integer(10 * i).toString();
 		assertEquals(result, fs);
 	}

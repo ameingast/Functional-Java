@@ -16,8 +16,8 @@ public class BaseTest {
 	protected List<List<Integer>> aas = new ArrayList<List<Integer>>(Arrays.asList(as, as, as));
 
 	private List<Integer> initTestData() {
-		List<Integer> is = new ArrayList<Integer>(SIZE);
-		Random r = new Random();
+		final List<Integer> is = new ArrayList<Integer>(SIZE);
+		final Random r = new Random();
 		for (Integer i = 0; i < SIZE; i++)
 			is.add(r.nextInt());
 		return is;

@@ -11,8 +11,8 @@ import at.yomi.functional.BaseTest;
 
 public class MapperTest extends BaseTest {
 
-	private Mapper<Integer,Integer> addOneMapper;
-	private Mapper<Integer,Integer> mulTenMapper;
+	private final Mapper<Integer,Integer> addOneMapper;
+	private final Mapper<Integer,Integer> mulTenMapper;
 
 	public MapperTest() {
 		addOneMapper = getAddOneMapper();
@@ -21,7 +21,8 @@ public class MapperTest extends BaseTest {
 
 	protected Mapper<Integer,Integer> getMulTenMapper() {
 		return new Mapper<Integer,Integer>() {
-			public Integer map(Integer a) {
+			@Override
+			public Integer map(final Integer a) {
 				return 10 * a;
 			}
 		};
@@ -29,7 +30,8 @@ public class MapperTest extends BaseTest {
 
 	protected Mapper<Integer,Integer> getAddOneMapper() {
 		return new Mapper<Integer,Integer>() {
-			public Integer map(Integer a) {
+			@Override
+			public Integer map(final Integer a) {
 				return a + 1;
 			}
 		};
@@ -37,20 +39,20 @@ public class MapperTest extends BaseTest {
 
 	@Test
 	public void testAddOne() {
-		List<Integer> bs = addOneMapper.apply(as);
+		final List<Integer> bs = addOneMapper.apply(as);
 
-		List<Integer> cs = new ArrayList<Integer>();
-		for (Integer i : as)
+		final List<Integer> cs = new ArrayList<Integer>();
+		for (final Integer i : as)
 			cs.add(i + 1);
 		assertArrayEquals(cs.toArray(), bs.toArray());
 	}
 
 	@Test
 	public void testMulTen() {
-		List<Integer> bs = mulTenMapper.apply(as);
+		final List<Integer> bs = mulTenMapper.apply(as);
 
-		List<Integer> cs = new ArrayList<Integer>();
-		for (Integer i : as)
+		final List<Integer> cs = new ArrayList<Integer>();
+		for (final Integer i : as)
 			cs.add(i * 10);
 		assertArrayEquals(cs.toArray(), bs.toArray());
 	}

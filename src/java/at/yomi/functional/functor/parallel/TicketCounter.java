@@ -6,11 +6,11 @@ public class TicketCounter {
 	private final Semaphore counter;
 	private int tickets = 0;
 
-	public TicketCounter(Integer limit) {
-		this.counter = new Semaphore(-1 * limit + 1);
+	public TicketCounter(final Integer counter) {
+		this.counter = new Semaphore(-1 * counter + 1);
 	}
 
-	public void returnTickets(Integer amount) {
+	public void returnTickets(final Integer amount) {
 		counter.release(amount);
 	}
 
