@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public class BaseTest {
-	private static final Integer SIZE = 1000;
+	private static final Integer SIZE = 10000;
 
 	protected static final Integer WORK_COUNT = 10;
 
