@@ -1,8 +1,9 @@
 package at.yomi.functional.functor.parallel.aggregator;
 
-import java.util.Map;
+import java.util.List;
 
 import at.yomi.functional.functor.parallel.TicketCounter;
+import at.yomi.pair.Pair;
 
 public abstract class Aggregator<A,B> {
 	protected final TicketCounter counter;
@@ -11,7 +12,7 @@ public abstract class Aggregator<A,B> {
 		this.counter = new TicketCounter(itemCount);
 	}
 
-	public abstract void add(Map<Integer,A> items);
+	public abstract void add(List<Pair<Integer,A>> items);
 
 	public abstract B getResult() throws InterruptedException;
 

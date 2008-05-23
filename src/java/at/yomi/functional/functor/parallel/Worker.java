@@ -1,12 +1,11 @@
 package at.yomi.functional.functor.parallel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import at.yomi.functional.functor.Functor;
 import at.yomi.functional.functor.parallel.aggregator.Aggregator;
+import at.yomi.pair.Pair;
 
 class Worker<A,B> extends Thread {
 
@@ -16,9 +15,9 @@ class Worker<A,B> extends Thread {
 
 	private final Aggregator<B,?> aggregator;
 
-	private final Map<Integer,A> items = new HashMap<Integer,A>();
-
 	private final Functor<A,B,?> functor;
+
+	private final List<Pair<Integer,A>> items = new ArrayList<Pair<Integer,A>>();
 
 	private final Integer commitInterval;
 
@@ -45,12 +44,6 @@ class Worker<A,B> extends Thread {
 			worker.start();
 	}
 
-	public Worker(final Aggregator<B,?> aggregator, final Functor<A,B,?> functor) {
-		this.functor = functor;
-		this.aggregator = aggregator;
-		this.commitInterval = DEFAULT_COMMIT_INTERVAL;
-	}
-
 	public Worker(final Aggregator<B,?> aggregator, final Integer commitInterval,
 			final Functor<A,B,?> functor) {
 		this.functor = functor;
@@ -59,17 +52,17 @@ class Worker<A,B> extends Thread {
 	}
 
 	public synchronized void add(final A a) {
-		items.put(aggregator.getTicket(), a);
+		items.add(new Pair<Integer,A>(aggregator.getTicket(), a));
 	}
 
 	@Override
 	public void run() {
-		final Map<Integer,B> results = new HashMap<Integer,B>(items.size());
+		final List<Pair<Integer,B>> results = new ArrayList<Pair<Integer,B>>(items.size());
 		int i = 0;
 
-		for (final Integer ticket : items.keySet()) {
-			results.put(ticket, functor.apply(items.get(ticket)));
-			if (i++ > commitInterval) {
+		for (final Pair<Integer,A> pair : items) {
+			results.add(new Pair<Integer,B>(pair.first, functor.apply(pair.second)));
+			if (i++ > commitInterval && commitInterval != DEFAULT_COMMIT_INTERVAL) {
 				aggregator.add(results);
 				results.clear();
 				i = 0;

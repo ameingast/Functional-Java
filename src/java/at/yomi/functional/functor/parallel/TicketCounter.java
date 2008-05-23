@@ -4,7 +4,7 @@ import java.util.concurrent.Semaphore;
 
 public class TicketCounter {
 	private final Semaphore counter;
-	private int tickets = 0;
+	private Integer tickets = 0;
 
 	public TicketCounter(final Integer counter) {
 		this.counter = new Semaphore(-1 * counter + 1);

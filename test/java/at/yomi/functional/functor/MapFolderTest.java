@@ -7,16 +7,33 @@ import org.junit.Test;
 import at.yomi.functional.BaseTest;
 
 public class MapFolderTest extends BaseTest {
+
+	protected String concat(final Integer b, final String e) {
+		return e + b.toString();
+	}
+
+	protected Integer mulTen(final Integer a) {
+		return 10 * a;
+	}
+
+	protected Integer addOne(final Integer a) {
+		return a + 1;
+	}
+
+	protected Integer sum(final Integer a, final Integer b) {
+		return a + b;
+	}
+
 	protected MapFolder<Integer,Integer,String> getMulTenConcatAsStringFolder() {
 		return new MapFolder<Integer,Integer,String>() {
 			@Override
 			public String fold(final Integer b, final String e) {
-				return e + b.toString();
+				return concat(b, e);
 			}
 
 			@Override
 			public Integer map(final Integer a) {
-				return 10 * a;
+				return mulTen(a);
 			}
 		};
 	}
@@ -25,12 +42,12 @@ public class MapFolderTest extends BaseTest {
 		return new MapFolder<Integer,Integer,Integer>() {
 			@Override
 			public Integer fold(final Integer b, final Integer e) {
-				return e + b;
+				return sum(e, b);
 			}
 
 			@Override
 			public Integer map(final Integer a) {
-				return a + 1;
+				return addOne(a);
 			}
 		};
 	}

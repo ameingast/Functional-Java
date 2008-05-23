@@ -10,15 +10,6 @@ import org.junit.Test;
 import at.yomi.functional.BaseTest;
 
 public class MapperTest extends BaseTest {
-
-	private final Mapper<Integer,Integer> addOneMapper;
-	private final Mapper<Integer,Integer> mulTenMapper;
-
-	public MapperTest() {
-		addOneMapper = getAddOneMapper();
-		mulTenMapper = getMulTenMapper();
-	}
-
 	protected Mapper<Integer,Integer> getMulTenMapper() {
 		return new Mapper<Integer,Integer>() {
 			@Override
@@ -39,7 +30,7 @@ public class MapperTest extends BaseTest {
 
 	@Test
 	public void testAddOne() {
-		final List<Integer> bs = addOneMapper.apply(as);
+		final List<Integer> bs = getAddOneMapper().apply(as);
 
 		final List<Integer> cs = new ArrayList<Integer>();
 		for (final Integer i : as)
@@ -49,7 +40,7 @@ public class MapperTest extends BaseTest {
 
 	@Test
 	public void testMulTen() {
-		final List<Integer> bs = mulTenMapper.apply(as);
+		final List<Integer> bs = getMulTenMapper().apply(as);
 
 		final List<Integer> cs = new ArrayList<Integer>();
 		for (final Integer i : as)

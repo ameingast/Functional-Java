@@ -1,8 +1,9 @@
 package at.yomi.functional.functor.parallel.aggregator;
 
-import java.util.Map;
+import java.util.List;
 
 import at.yomi.functional.functor.Folder;
+import at.yomi.pair.Pair;
 
 public class FolderAggregator<A,B> extends Aggregator<A,B> {
 	protected B e;
@@ -15,9 +16,9 @@ public class FolderAggregator<A,B> extends Aggregator<A,B> {
 	}
 
 	@Override
-	public synchronized void add(final Map<Integer,A> items) {
-		for (final Integer ticket : items.keySet())
-			e = folder.fold(items.get(ticket), e);
+	public synchronized void add(final List<Pair<Integer,A>> items) {
+		for (final Pair<Integer,A> pair : items)
+			e = folder.fold(pair.second, e);
 		counter.returnTickets(items.size());
 	}
 

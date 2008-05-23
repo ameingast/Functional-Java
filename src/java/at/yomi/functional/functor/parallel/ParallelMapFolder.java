@@ -50,7 +50,6 @@ public abstract class ParallelMapFolder<A,B,C> extends MapFolder<A,B,C> {
 						return map(a);
 					}
 				});
-
 		try {
 			return aggregator.getResult();
 		} catch (final InterruptedException e) {

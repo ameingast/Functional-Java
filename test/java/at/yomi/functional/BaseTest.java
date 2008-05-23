@@ -10,6 +10,8 @@ public class BaseTest {
 
 	protected static final Integer WORK_COUNT = 10;
 
+	protected static final Integer COMMIT_INTERVAL = 100;
+
 	protected List<Integer> as = initTestData();
 
 	@SuppressWarnings("unchecked")
