@@ -1,6 +1,7 @@
 package at.yomi.functional.functor;
 
 import at.yomi.benchmark.AbstractBenchmark;
+import at.yomi.benchmark.BaseBenchmark;
 import at.yomi.benchmark.annotations.BM;
 import at.yomi.benchmark.annotations.BMIgnore;
 

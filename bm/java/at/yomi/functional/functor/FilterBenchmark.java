@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import at.yomi.benchmark.AbstractBenchmark;
+import at.yomi.benchmark.BaseBenchmark;
 import at.yomi.benchmark.annotations.BM;
 import at.yomi.benchmark.annotations.BMIgnore;
 
@@ -20,7 +21,6 @@ public class FilterBenchmark extends BaseBenchmark {
 						return 0 == a % 2;
 					}
 				}.apply(data);
-
 			}
 		};
 

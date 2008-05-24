@@ -8,7 +8,7 @@ import at.yomi.mp.util.BlockingLinkedList;
 
 public abstract class AbstractReceiver<A> extends Thread {
 
-	private final Queue<Message<A>> msgs = new BlockingLinkedList<Message<A>>();
+	private final Queue<Message<A,?>> msgs = new BlockingLinkedList<Message<A,?>>();
 
 	private final Semaphore shutdownLock = new Semaphore(0);
 
@@ -20,7 +20,7 @@ public abstract class AbstractReceiver<A> extends Thread {
 	}
 
 	public void run() {
-		Message<A> a = null;
+		Message<A,?> a = null;
 
 		try {
 			while (!shutdown)
@@ -35,7 +35,7 @@ public abstract class AbstractReceiver<A> extends Thread {
 		shutdownLock.release();
 	}
 
-	public void receive(final Message<A> msg) {
+	public void receive(final Message<A,?> msg) {
 		msgs.add(msg);
 	}
 
@@ -57,17 +57,18 @@ public abstract class AbstractReceiver<A> extends Thread {
 	 * appropriate method at runtime. a __VERY__ bad approach.
 	 * 
 	 * @throws DeliveryException
-	 * @throws InterruptedException
 	 */
-	private void findAndExecuteHandler(final Message<A> a) throws DeliveryException {
+	private void findAndExecuteHandler(final Message<A,?> a) throws DeliveryException {
 		try {
 			final Method m = getClass().getMethod("handle", a.getClass());
 			m.invoke(this, a);
+		} catch (final NoSuchMethodException e) {
+			e.printStackTrace();
+			throw new DeliveryException(this + ": Could not deliver message <" + a + ">, because <"
+					+ getClass() + "> is not able to receive messages of type <" + a.getClass()
+					+ ">");
 		} catch (final Exception e) {
-			throw new DeliveryException(this + ": Could not deliver message <" + a.toString()
-					+ ">, because <" + getClass() + "> is not able to receive messages of type <"
-					+ a.getClass() + ">: ");
-
+			throw new DeliveryException(e);
 		}
 	}
 }

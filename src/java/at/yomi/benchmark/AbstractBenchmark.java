@@ -11,7 +11,7 @@ public abstract class AbstractBenchmark {
 
 	public static Integer ROUNDS = 3;
 
-	public abstract void benchmark();
+	public abstract void benchmark() throws Exception;
 
 	public AbstractBenchmark(final String title) {
 		this.title = title;
@@ -24,14 +24,18 @@ public abstract class AbstractBenchmark {
 	}
 
 	public void execute() {
-		System.out.print("Starting: " + title + " ");
-		final long start = System.currentTimeMillis();
-		for (int i = 0; i < ROUNDS; i++) {
-			benchmark();
-			System.out.print(".");
+		try {
+			System.out.print("Starting: " + title + " ");
+			final long start = System.currentTimeMillis();
+			for (int i = 0; i < ROUNDS; i++) {
+				benchmark();
+				System.out.print(".");
+			}
+			final long end = System.currentTimeMillis();
+			System.out.println(".\t| Execution took:\t" + timeTaken(start, end) + " ms");
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
 		}
-		final long end = System.currentTimeMillis();
-		System.out.println(".\t| Execution took:\t" + timeTaken(start, end) + " ms");
 	}
 
 	private long timeTaken(final long start, final long end) {

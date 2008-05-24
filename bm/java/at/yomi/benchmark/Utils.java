@@ -1,21 +1,23 @@
-package at.yomi.functional.functor;
+package at.yomi.benchmark;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Utils {
-	protected static Boolean isPrime(final Integer a) {
+	public static Boolean isPrime(final Integer a) {
 		for (int i = 2; i < Math.sqrt(a); i++)
 			if (a % i == 0)
 				return new Boolean(false);
 		return new Boolean(true);
 	}
 
-	protected static List<Integer> getData(final Integer size) {
+	public static List<Integer> getData(final Integer size) {
 		final List<Integer> c = new ArrayList<Integer>(size);
+		final Random r = new Random();
 
-		for (Integer i = 1; i < 100000; i++)
-			c.add(i);
+		for (Integer i = 0; i < size; i++)
+			c.add(r.nextInt());
 		return c;
 	}
 

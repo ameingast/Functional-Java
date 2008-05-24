@@ -1,10 +1,10 @@
 package at.yomi.mp;
 
-public abstract class Message<A> {
+public abstract class Message<A,B> {
 	public final A content;
-	public final AbstractReceiver<A> sender;
+	public final AbstractReceiver<B> sender;
 
-	public Message(final AbstractReceiver<A> sender, final A content) {
+	public Message(final AbstractReceiver<B> sender, final A content) {
 		this.sender = sender;
 		this.content = content;
 	}
@@ -14,6 +14,6 @@ public abstract class Message<A> {
 	}
 
 	public String toString() {
-		return content.toString();
+		return content != null ? content.toString() : super.toString();
 	}
 }
