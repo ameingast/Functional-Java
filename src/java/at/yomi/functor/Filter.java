@@ -10,7 +10,7 @@ public abstract class Filter<A> implements F<List<A>,List<A>> {
 
 	@Override
 	public List<A> apply(final List<A> as) {
-		return new Folder<A,List<A>>() {
+		return new Fold<A,List<A>>() {
 			@Override
 			public List<A> fold(final A a, final List<A> e) {
 				if (filter(a))

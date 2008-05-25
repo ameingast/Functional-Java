@@ -2,7 +2,7 @@ package at.yomi.functor.parallel;
 
 import java.util.List;
 
-import at.yomi.functor.Zipper;
+import at.yomi.functor.Zip;
 import at.yomi.functor.ZipWith;
 import at.yomi.functor.parallel.aggregator.Worker;
 import at.yomi.pair.Pair;
@@ -30,11 +30,11 @@ public abstract class ParallelZipWith<A,B,C> extends ZipWith<A,B,C> {
 
 	@Override
 	public List<C> apply(final List<A> as, final List<B> bs) {
-		return new ParallelMapper<Pair<A,B>,C>(workerCount, commitInterval) {
+		return new ParallelMap<Pair<A,B>,C>(workerCount, commitInterval) {
 			@Override
 			public C map(final Pair<A,B> pair) {
 				return self.handle(pair.first, pair.second);
 			}
-		}.apply(new Zipper<A,B>().apply(as, bs));
+		}.apply(new Zip<A,B>().apply(as, bs));
 	}
 }

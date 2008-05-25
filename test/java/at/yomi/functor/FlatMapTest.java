@@ -9,14 +9,14 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class FlatMapperTest extends BaseTest {
+public class FlatMapTest extends BaseTest {
 	@SuppressWarnings("unchecked")
 	private final List<List<Integer>> aas = new ArrayList<List<Integer>>(Arrays.asList(data, data,
 			data));
 
 	@Test
 	public void testAddTwoAndFlatten() {
-		final List<Integer> es = new FlatMapper<Integer,Integer>() {
+		final List<Integer> es = new FlatMap<Integer,Integer>() {
 			@Override
 			public Integer map(Integer a) {
 				return a * 2;

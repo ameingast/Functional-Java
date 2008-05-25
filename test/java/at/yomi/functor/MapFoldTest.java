@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import at.yomi.functor.MapFolder;
+import at.yomi.functor.MapFold;
 
-public class MapFolderTest extends BaseTest {
+public class MapFoldTest extends BaseTest {
 
 	protected String concat(final Integer b, final String e) {
 		return e + b.toString();
@@ -24,8 +24,8 @@ public class MapFolderTest extends BaseTest {
 		return a + b;
 	}
 
-	protected MapFolder<Integer,Integer,String> getMulTenConcatAsStringFolder() {
-		return new MapFolder<Integer,Integer,String>() {
+	protected MapFold<Integer,Integer,String> getMulTenConcatAsStringFolder() {
+		return new MapFold<Integer,Integer,String>() {
 			@Override
 			public String fold(final Integer b, final String e) {
 				return concat(b, e);
@@ -38,8 +38,8 @@ public class MapFolderTest extends BaseTest {
 		};
 	}
 
-	protected MapFolder<Integer,Integer,Integer> getAddOneSumFolder() {
-		return new MapFolder<Integer,Integer,Integer>() {
+	protected MapFold<Integer,Integer,Integer> getAddOneSumFolder() {
+		return new MapFold<Integer,Integer,Integer>() {
 			@Override
 			public Integer fold(final Integer b, final Integer e) {
 				return sum(e, b);

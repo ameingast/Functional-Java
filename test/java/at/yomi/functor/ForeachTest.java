@@ -7,14 +7,14 @@ import java.util.List;
 
 import org.junit.Test;
 
-import at.yomi.functor.ForeachFunctor;
+import at.yomi.functor.Foreach;
 
-public class ForeachFunctorTest extends BaseTest {
+public class ForeachTest extends BaseTest {
 	@Test
 	public void testSideEffects() {
 		final List<Integer> bs = new ArrayList<Integer>();
 
-		new ForeachFunctor<Integer>() {
+		new Foreach<Integer>() {
 			@Override
 			public void handle(final Integer a) {
 				bs.add(a);

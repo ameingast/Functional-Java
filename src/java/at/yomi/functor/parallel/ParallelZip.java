@@ -1,25 +1,25 @@
 package at.yomi.functor.parallel;
 
-import at.yomi.functor.Zipper;
+import at.yomi.functor.Zip;
 import at.yomi.functor.ZipWith;
 import at.yomi.functor.parallel.aggregator.Worker;
 import at.yomi.pair.Pair;
 
-public class ParallelZipper<A,B> extends Zipper<A,B> {
+public class ParallelZip<A,B> extends Zip<A,B> {
 
 	protected final Integer workerCount;
 
 	protected final Integer commitInterval;
 
-	public ParallelZipper() {
+	public ParallelZip() {
 		this(Worker.DEFAULT_WORKER_COUNT, Worker.DEFAULT_COMMIT_INTERVAL);
 	}
 
-	public ParallelZipper(final Integer workerCount) {
+	public ParallelZip(final Integer workerCount) {
 		this(workerCount, Worker.DEFAULT_COMMIT_INTERVAL);
 	}
 
-	public ParallelZipper(final Integer workerCount, final Integer commitInterval) {
+	public ParallelZip(final Integer workerCount, final Integer commitInterval) {
 		this.workerCount = workerCount;
 		this.commitInterval = commitInterval;
 	}

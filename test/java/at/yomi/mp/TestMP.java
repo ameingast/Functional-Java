@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import at.yomi.functor.Folder;
+import at.yomi.functor.Fold;
 
 public class TestMP extends BaseTest {
 	// @Test
@@ -30,7 +30,7 @@ public class TestMP extends BaseTest {
 		r.shutDown();
 		r.waitForShutDown();
 
-		assertEquals(new Folder<Integer,Long>() {
+		assertEquals(new Fold<Integer,Long>() {
 			public Long fold(final Integer a, final Long e) {
 				return new Long(a + e);
 			}

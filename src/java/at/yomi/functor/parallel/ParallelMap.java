@@ -2,26 +2,26 @@ package at.yomi.functor.parallel;
 
 import java.util.List;
 
-import at.yomi.functor.Mapper;
+import at.yomi.functor.Map;
 import at.yomi.functor.f.F;
 import at.yomi.functor.parallel.aggregator.ListAggregator;
 import at.yomi.functor.parallel.aggregator.Worker;
 
-public abstract class ParallelMapper<A,B> extends Mapper<A,B> {
+public abstract class ParallelMap<A,B> extends Map<A,B> {
 
 	private final Integer workerCount;
 
 	private final Integer commitInterval;
 
-	public ParallelMapper() {
+	public ParallelMap() {
 		this(Worker.DEFAULT_WORKER_COUNT, Worker.DEFAULT_COMMIT_INTERVAL);
 	}
 
-	public ParallelMapper(final Integer workerCount) {
+	public ParallelMap(final Integer workerCount) {
 		this(workerCount, Worker.DEFAULT_COMMIT_INTERVAL);
 	}
 
-	public ParallelMapper(final Integer workerCount, final Integer commitInterval) {
+	public ParallelMap(final Integer workerCount, final Integer commitInterval) {
 		this.workerCount = workerCount;
 		this.commitInterval = commitInterval;
 	}

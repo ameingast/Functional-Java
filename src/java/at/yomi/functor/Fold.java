@@ -4,7 +4,7 @@ import java.util.List;
 
 import at.yomi.functor.f.F2;
 
-public abstract class Folder<A,B> implements F2<List<A>,B,B> {
+public abstract class Fold<A,B> implements F2<List<A>,B,B> {
 
 	public abstract B fold(final A a, final B e);
 

@@ -4,16 +4,16 @@ import at.yomi.benchmark.AbstractBenchmark;
 import at.yomi.benchmark.BaseBenchmark;
 import at.yomi.benchmark.Utils;
 import at.yomi.benchmark.annotations.BM;
-import at.yomi.functor.parallel.ParallelMapFolder;
-import at.yomi.functor.parallel.StrictParallelMapFolder;
+import at.yomi.functor.parallel.ParallelMapFold;
+import at.yomi.functor.parallel.StrictParallelMapFold;
 
-public class MapFolderBenchmark extends BaseBenchmark {
+public class MapFoldBenchmark extends BaseBenchmark {
 	@BM
 	public static void bmCountEven() {
 		new AbstractBenchmark("MapFold (even) (count)") {
 			@Override
 			public void benchmark() {
-				new MapFolder<Integer,Boolean,Integer>() {
+				new MapFold<Integer,Boolean,Integer>() {
 					@Override
 					public Integer fold(final Boolean b, final Integer e) {
 						return b ? e + 1 : e;
@@ -44,7 +44,7 @@ public class MapFolderBenchmark extends BaseBenchmark {
 		new AbstractBenchmark("MapFold (TPoly) (count)") {
 			@Override
 			public void benchmark() {
-				new MapFolder<Integer,Float,Float>() {
+				new MapFold<Integer,Float,Float>() {
 					@Override
 					public Float fold(final Float b, final Float e) {
 						return b + e;
@@ -61,7 +61,7 @@ public class MapFolderBenchmark extends BaseBenchmark {
 		new AbstractBenchmark("[5] MapFold (TPoly) (sum)") {
 			@Override
 			public void benchmark() {
-				new ParallelMapFolder<Integer,Float,Float>(5) {
+				new ParallelMapFold<Integer,Float,Float>(5) {
 					@Override
 					public Float fold(final Float b, final Float e) {
 						return e + b;
@@ -78,7 +78,7 @@ public class MapFolderBenchmark extends BaseBenchmark {
 		new AbstractBenchmark("[5] StrictMapFold (TPoly) (sum)") {
 			@Override
 			public void benchmark() {
-				new StrictParallelMapFolder<Integer,Float,Float>(5) {
+				new StrictParallelMapFold<Integer,Float,Float>(5) {
 					@Override
 					public Float fold(final Float b, final Float e) {
 						return e + b;

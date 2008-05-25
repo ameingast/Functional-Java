@@ -10,13 +10,13 @@ import org.junit.Test;
 
 import at.yomi.pair.Pair;
 
-public class ZipperTest extends BaseTest {
+public class ZipTest extends BaseTest {
 	private final List<Integer> as = Arrays.asList(1, 2, 3, 4, 5);
 
 	private final List<Integer> bs = Arrays.asList(1, 2, 3, 4);
 
-	protected Zipper<Integer,Integer> getZip() {
-		return new Zipper<Integer,Integer>();
+	protected Zip<Integer,Integer> getZip() {
+		return new Zip<Integer,Integer>();
 	}
 
 	@Test

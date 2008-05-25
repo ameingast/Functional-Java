@@ -4,7 +4,7 @@ import java.util.List;
 
 import at.yomi.functor.f.S;
 
-public abstract class ForeachFunctor<A> implements S<List<A>> {
+public abstract class Foreach<A> implements S<List<A>> {
 	public abstract void handle(A a);
 
 	@Override

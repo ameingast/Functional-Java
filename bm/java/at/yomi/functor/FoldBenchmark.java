@@ -4,16 +4,16 @@ import at.yomi.benchmark.AbstractBenchmark;
 import at.yomi.benchmark.BaseBenchmark;
 import at.yomi.benchmark.annotations.BM;
 import at.yomi.benchmark.annotations.BMIgnore;
-import at.yomi.functor.Folder;
+import at.yomi.functor.Fold;
 
-public class FolderBenchmark extends BaseBenchmark {
+public class FoldBenchmark extends BaseBenchmark {
 	@BM
 	@BMIgnore
 	public static void bmProduct() {
 		new AbstractBenchmark("Folding (*)") {
 			@Override
 			public void benchmark() {
-				new Folder<Integer,Integer>() {
+				new Fold<Integer,Integer>() {
 					@Override
 					public Integer fold(final Integer a, final Integer e) {
 						return a * e;

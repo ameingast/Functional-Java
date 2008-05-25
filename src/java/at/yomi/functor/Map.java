@@ -5,7 +5,7 @@ import java.util.List;
 
 import at.yomi.functor.f.F;
 
-public abstract class Mapper<A,B> implements F<List<A>,List<B>> {
+public abstract class Map<A,B> implements F<List<A>,List<B>> {
 	public abstract B map(final A a);
 
 	@Override

@@ -2,14 +2,14 @@ package at.yomi.functor.parallel.aggregator;
 
 import java.util.List;
 
-import at.yomi.functor.Folder;
+import at.yomi.functor.Fold;
 import at.yomi.pair.Pair;
 
-public class FolderAggregator<A,B> extends Aggregator<A,B> {
+public class FoldAggregator<A,B> extends Aggregator<A,B> {
 	protected B e;
-	protected Folder<A,B> folder;
+	protected Fold<A,B> folder;
 
-	public FolderAggregator(final Integer itemCount, final Folder<A,B> folder, final B e) {
+	public FoldAggregator(final Integer itemCount, final Fold<A,B> folder, final B e) {
 		super(itemCount);
 		this.folder = folder;
 		this.e = e;

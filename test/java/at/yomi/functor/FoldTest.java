@@ -6,12 +6,12 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import at.yomi.functor.Folder;
+import at.yomi.functor.Fold;
 
-public class FolderTest extends BaseTest {
+public class FoldTest extends BaseTest {
 	@Test
 	public void testAddNumbers() {
-		final Integer k = new Folder<Integer,Integer>() {
+		final Integer k = new Fold<Integer,Integer>() {
 			@Override
 			public Integer fold(Integer a, Integer e) {
 				return a + e;
@@ -25,7 +25,7 @@ public class FolderTest extends BaseTest {
 
 	@Test
 	public void testStringConcat() {
-		final String sf = new Folder<String,String>() {
+		final String sf = new Fold<String,String>() {
 			@Override
 			public String fold(String a, String e) {
 				return e + a;

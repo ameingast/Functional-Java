@@ -5,10 +5,10 @@ import at.yomi.functor.MapFoldTest;
 import at.yomi.functor.parallel.ParallelMapFold;
 import at.yomi.functor.parallel.StrictParallelMapFold;
 
-public class ParallelMapFolderWithCommitIntervalTest extends MapFoldTest {
+public class ParallelMapFoldTest extends MapFoldTest {
 	@Override
 	protected MapFold<Integer,Integer,String> getMulTenConcatAsStringFolder() {
-		return new StrictParallelMapFold<Integer,Integer,String>(WORKER_COUNT, COMMIT_INTERVAL) {
+		return new StrictParallelMapFold<Integer,Integer,String>(WORKER_COUNT) {
 			@Override
 			public String fold(final Integer b, final String e) {
 				return concat(b, e);
@@ -23,11 +23,10 @@ public class ParallelMapFolderWithCommitIntervalTest extends MapFoldTest {
 
 	@Override
 	protected MapFold<Integer,Integer,Integer> getAddOneSumFolder() {
-		return new ParallelMapFold<Integer,Integer,Integer>(WORKER_COUNT, COMMIT_INTERVAL) {
-
+		return new ParallelMapFold<Integer,Integer,Integer>(WORKER_COUNT) {
 			@Override
 			public Integer fold(final Integer b, final Integer e) {
-				return sum(e, b);
+				return sum(b, e);
 			}
 
 			@Override
