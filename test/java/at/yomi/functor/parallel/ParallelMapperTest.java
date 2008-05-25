@@ -7,7 +7,7 @@ import at.yomi.functor.parallel.ParallelMapper;
 public class ParallelMapperTest extends MapperTest {
 	@Override
 	protected Mapper<Integer,Integer> getAddOneMapper() {
-		return new ParallelMapper<Integer,Integer>(WORK_COUNT) {
+		return new ParallelMapper<Integer,Integer>(WORKER_COUNT) {
 			@Override
 			public Integer map(final Integer a) {
 				return a + 1;
@@ -17,7 +17,7 @@ public class ParallelMapperTest extends MapperTest {
 
 	@Override
 	protected Mapper<Integer,Integer> getMulTenMapper() {
-		return new ParallelMapper<Integer,Integer>(WORK_COUNT) {
+		return new ParallelMapper<Integer,Integer>(WORKER_COUNT) {
 			@Override
 			public Integer map(final Integer a) {
 				return 10 * a;

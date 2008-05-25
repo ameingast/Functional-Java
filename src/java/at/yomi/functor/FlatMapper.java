@@ -3,11 +3,13 @@ package at.yomi.functor;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class FlatMapper<A,B> implements Functor<List<List<A>>,List<B>,Object> {
+import at.yomi.functor.f.F;
+
+public abstract class FlatMapper<A,B> implements F<List<List<A>>,List<B>> {
 	public abstract B map(final A a);
 
-	@SuppressWarnings("unchecked")
-	public List<B> apply(final List<List<A>> as, final Object... cs) {
+	@Override
+	public List<B> apply(final List<List<A>> as) {
 		return new Folder<List<A>,List<B>>() {
 			@Override
 			public List<B> fold(final List<A> aas, final List<B> e) {

@@ -16,9 +16,9 @@ public class FolderTest extends BaseTest {
 			public Integer fold(Integer a, Integer e) {
 				return a + e;
 			}
-		}.apply(as, 0);
+		}.apply(data, 0);
 		Integer r = 0;
-		for (final Integer i : as)
+		for (final Integer i : data)
 			r += i;
 		assertEquals(r, k);
 	}

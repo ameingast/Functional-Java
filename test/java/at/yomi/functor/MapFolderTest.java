@@ -54,20 +54,20 @@ public class MapFolderTest extends BaseTest {
 
 	@Test
 	public void testAddOneAndSum() {
-		final Integer fs = getAddOneSumFolder().apply(as, 0);
+		final Integer fs = getAddOneSumFolder().apply(data, 0);
 
 		Integer result = 0;
-		for (final Integer i : as)
+		for (final Integer i : data)
 			result += i + 1;
 		assertEquals(result, fs);
 	}
 
 	@Test
 	public void testMulTenConcatAsString() {
-		final String fs = getMulTenConcatAsStringFolder().apply(as, "");
+		final String fs = getMulTenConcatAsStringFolder().apply(data, "");
 
 		String result = "";
-		for (final Integer i : as)
+		for (final Integer i : data)
 			result += new Integer(10 * i).toString();
 		assertEquals(result, fs);
 	}

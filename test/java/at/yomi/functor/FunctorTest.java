@@ -4,15 +4,16 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import at.yomi.functor.Functor;
+import at.yomi.functor.f.F;
 
 public class FunctorTest extends BaseTest {
 
 	@Test
 	public void testAddConst() {
 		final Integer c = 2;
-		final Integer k = new Functor<Integer,Integer,Integer>() {
-			public Integer apply(final Integer a, final Integer... is) {
+		final Integer k = new F<Integer,Integer>() {
+			@Override
+			public Integer apply(final Integer a) {
 				return a + c;
 			}
 		}.apply(2);
@@ -22,14 +23,12 @@ public class FunctorTest extends BaseTest {
 	@Test
 	public void testConsString() {
 		final String prefix = "PRE";
-		final String result = new Functor<String,String,String>() {
-			public String apply(String a, String... cs) {
-				String r = prefix + a;
-				for (String s : cs)
-					r += s;
-				return r;
+		final String result = new F<String,String>() {
+			@Override
+			public String apply(String a) {
+				return prefix + a;
 			}
-		}.apply("-", "FIX", "-", "POST", "-", "FIX");
-		assertEquals("PRE-FIX-POST-FIX", result);
+		}.apply("POST");
+		assertEquals("PREPOST", result);
 	}
 }

@@ -20,6 +20,7 @@ public class ListAggregator<A> extends Aggregator<A,List<A>> {
 		counter.returnTickets(items.size());
 	}
 
+	// FIXME: sometimes a concurrent modification exception is thrown
 	@Override
 	public List<A> getResult() throws InterruptedException {
 		final List<A> results = new ArrayList<A>(items.size());

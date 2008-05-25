@@ -2,7 +2,9 @@ package at.yomi.functor;
 
 import java.util.List;
 
-public abstract class MapFolder<A,B,C> implements Functor<List<A>,C,C> {
+import at.yomi.functor.f.F2;
+
+public abstract class MapFolder<A,B,C> implements F2<List<A>,C,C> {
 
 	private final MapFolder<A,B,C> self = this;
 
@@ -10,7 +12,8 @@ public abstract class MapFolder<A,B,C> implements Functor<List<A>,C,C> {
 
 	public abstract C fold(B b, C e);
 
-	public C apply(final List<A> as, final C... cs) {
+	@Override
+	public C apply(final List<A> as, final C c) {
 		final List<B> bs = new Mapper<A,B>() {
 			@Override
 			public B map(A a) {
@@ -23,6 +26,6 @@ public abstract class MapFolder<A,B,C> implements Functor<List<A>,C,C> {
 			public C fold(final B b, final C e) {
 				return self.fold(b, e);
 			}
-		}.apply(bs, cs);
+		}.apply(bs, c);
 	}
 }

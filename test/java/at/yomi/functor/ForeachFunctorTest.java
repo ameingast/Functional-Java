@@ -19,8 +19,8 @@ public class ForeachFunctorTest extends BaseTest {
 			public void handle(final Integer a) {
 				bs.add(a);
 			}
-		}.apply(as);
+		}.apply(data);
 
-		assertArrayEquals(as.toArray(), bs.toArray());
+		assertArrayEquals(data.toArray(), bs.toArray());
 	}
 }

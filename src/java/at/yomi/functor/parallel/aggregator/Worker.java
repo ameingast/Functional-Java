@@ -3,7 +3,7 @@ package at.yomi.functor.parallel.aggregator;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.yomi.functor.Functor;
+import at.yomi.functor.f.F;
 import at.yomi.pair.Pair;
 import at.yomi.utils.ThreadPoolExecutorSingleton;
 
@@ -15,7 +15,7 @@ public class Worker<A,B> implements Runnable {
 
 	private final Aggregator<B,?> aggregator;
 
-	private final Functor<A,B,?> functor;
+	private final F<A,B> functor;
 
 	private final List<Pair<Integer,A>> items = new ArrayList<Pair<Integer,A>>();
 
@@ -23,7 +23,7 @@ public class Worker<A,B> implements Runnable {
 
 	public static <A,B> List<Worker<A,B>> createWorkers(final Integer workerCount,
 			final Integer commitInterval, final Aggregator<B,?> aggregator, final List<A> as,
-			final boolean start, final Functor<A,B,?> functor) {
+			final boolean start, final F<A,B> functor) {
 		final List<Worker<A,B>> workers = new ArrayList<Worker<A,B>>(workerCount);
 		int j = 0;
 
@@ -45,7 +45,7 @@ public class Worker<A,B> implements Runnable {
 	}
 
 	public Worker(final Aggregator<B,?> aggregator, final Integer commitInterval,
-			final Functor<A,B,?> functor) {
+			final F<A,B> functor) {
 		this.functor = functor;
 		this.aggregator = aggregator;
 		this.commitInterval = commitInterval;

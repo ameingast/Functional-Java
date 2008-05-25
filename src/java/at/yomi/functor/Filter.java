@@ -3,11 +3,13 @@ package at.yomi.functor;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Filter<A> implements Functor<List<A>,List<A>,A> {
+import at.yomi.functor.f.F;
+
+public abstract class Filter<A> implements F<List<A>,List<A>> {
 	public abstract boolean filter(A a);
 
-	@SuppressWarnings("unchecked")
-	public List<A> apply(final List<A> as, final A... ass) {
+	@Override
+	public List<A> apply(final List<A> as) {
 		return new Folder<A,List<A>>() {
 			@Override
 			public List<A> fold(final A a, final List<A> e) {

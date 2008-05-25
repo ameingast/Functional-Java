@@ -3,14 +3,17 @@ package at.yomi.functor;
 import static org.junit.Assert.assertArrayEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import org.junit.Test;
 
-import at.yomi.functor.FlatMapper;
-
 public class FlatMapperTest extends BaseTest {
+	@SuppressWarnings("unchecked")
+	private final List<List<Integer>> aas = new ArrayList<List<Integer>>(Arrays.asList(data, data,
+			data));
+
 	@Test
 	public void testAddTwoAndFlatten() {
 		final List<Integer> es = new FlatMapper<Integer,Integer>() {

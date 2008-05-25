@@ -2,12 +2,14 @@ package at.yomi.functor;
 
 import java.util.List;
 
-public abstract class ForeachFunctor<A> implements Functor<List<A>,A,A> {
+import at.yomi.functor.f.S;
+
+public abstract class ForeachFunctor<A> implements S<List<A>> {
 	public abstract void handle(A a);
 
-	public A apply(final List<A> as, final A... aas) {
+	@Override
+	public void apply(final List<A> as) {
 		for (final A a : as)
 			handle(a);
-		return null;
 	}
 }

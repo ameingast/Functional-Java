@@ -8,7 +8,7 @@ import at.yomi.functor.parallel.StrictParallelMapFolder;
 public class ParallelMapFolderWithCommitIntervalTest extends MapFolderTest {
 	@Override
 	protected MapFolder<Integer,Integer,String> getMulTenConcatAsStringFolder() {
-		return new StrictParallelMapFolder<Integer,Integer,String>(WORK_COUNT, COMMIT_INTERVAL) {
+		return new StrictParallelMapFolder<Integer,Integer,String>(WORKER_COUNT, COMMIT_INTERVAL) {
 			@Override
 			public String fold(final Integer b, final String e) {
 				return concat(b, e);
@@ -23,7 +23,7 @@ public class ParallelMapFolderWithCommitIntervalTest extends MapFolderTest {
 
 	@Override
 	protected MapFolder<Integer,Integer,Integer> getAddOneSumFolder() {
-		return new ParallelMapFolder<Integer,Integer,Integer>(WORK_COUNT, COMMIT_INTERVAL) {
+		return new ParallelMapFolder<Integer,Integer,Integer>(WORKER_COUNT, COMMIT_INTERVAL) {
 
 			@Override
 			public Integer fold(final Integer b, final Integer e) {

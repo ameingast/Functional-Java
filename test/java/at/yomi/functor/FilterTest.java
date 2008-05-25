@@ -16,7 +16,7 @@ public class FilterTest extends BaseTest {
 			public boolean filter(Integer a) {
 				return 0 == a % 2;
 			}
-		}.apply(as);
+		}.apply(data);
 		for (final Integer i : cs)
 			assertTrue(0 == i % 2);
 	}

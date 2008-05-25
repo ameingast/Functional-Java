@@ -30,20 +30,20 @@ public class MapperTest extends BaseTest {
 
 	@Test
 	public void testAddOne() {
-		final List<Integer> bs = getAddOneMapper().apply(as);
+		final List<Integer> bs = getAddOneMapper().apply(data);
 
 		final List<Integer> cs = new ArrayList<Integer>();
-		for (final Integer i : as)
+		for (final Integer i : data)
 			cs.add(i + 1);
 		assertArrayEquals(cs.toArray(), bs.toArray());
 	}
 
 	@Test
 	public void testMulTen() {
-		final List<Integer> bs = getMulTenMapper().apply(as);
+		final List<Integer> bs = getMulTenMapper().apply(data);
 
 		final List<Integer> cs = new ArrayList<Integer>();
-		for (final Integer i : as)
+		for (final Integer i : data)
 			cs.add(i * 10);
 		assertArrayEquals(cs.toArray(), bs.toArray());
 	}

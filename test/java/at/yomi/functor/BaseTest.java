@@ -1,7 +1,6 @@
 package at.yomi.functor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -13,11 +12,13 @@ import at.yomi.functor.parallel.PFService;
 public class BaseTest {
 	private static final Integer SIZE = 10000;
 
-	protected static final Integer WORK_COUNT = 10;
+	protected static final Integer WORKER_COUNT = 10;
 
 	protected static final Integer COMMIT_INTERVAL = 100;
 
-	protected List<Integer> as = initTestData();
+	protected List<Integer> data = getData(false);
+
+	protected List<Integer> smallData = getData(true);
 
 	@Before
 	public void setUp() {
@@ -29,14 +30,12 @@ public class BaseTest {
 		PFService.shutDown();
 	}
 
-	@SuppressWarnings("unchecked")
-	protected List<List<Integer>> aas = new ArrayList<List<Integer>>(Arrays.asList(as, as, as));
-
-	private List<Integer> initTestData() {
+	private List<Integer> getData(final boolean truncate) {
 		final List<Integer> is = new ArrayList<Integer>(SIZE);
 		final Random r = new Random();
+
 		for (Integer i = 0; i < SIZE; i++)
-			is.add(r.nextInt());
+			is.add(truncate ? r.nextInt() % 1000 : r.nextInt());
 		return is;
 	}
 }

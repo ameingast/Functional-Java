@@ -2,12 +2,12 @@ package at.yomi.functor.parallel;
 
 import java.util.List;
 
-import at.yomi.functor.parallel.aggregator.Worker;
 import at.yomi.functor.Folder;
-import at.yomi.functor.Functor;
 import at.yomi.functor.MapFolder;
+import at.yomi.functor.f.F;
 import at.yomi.functor.parallel.aggregator.Aggregator;
 import at.yomi.functor.parallel.aggregator.FolderAggregator;
+import at.yomi.functor.parallel.aggregator.Worker;
 
 public abstract class ParallelMapFolder<A,B,C> extends MapFolder<A,B,C> {
 
@@ -42,15 +42,14 @@ public abstract class ParallelMapFolder<A,B,C> extends MapFolder<A,B,C> {
 	}
 
 	@Override
-	public C apply(final List<A> as, final C... cs) {
-		final Aggregator<B,C> aggregator = getFolderAggregator(as.size(), cs[0]);
+	public C apply(final List<A> as, final C c) {
+		final Aggregator<B,C> aggregator = getFolderAggregator(as.size(), c);
 
-		Worker.createWorkers(workerCount, commitInterval, aggregator, as, true,
-				new Functor<A,B,Object>() {
-					public B apply(final A a, final Object... cs) {
-						return map(a);
-					}
-				});
+		Worker.createWorkers(workerCount, commitInterval, aggregator, as, true, new F<A,B>() {
+			public B apply(final A a) {
+				return map(a);
+			}
+		});
 		try {
 			return aggregator.getResult();
 		} catch (final InterruptedException e) {
