@@ -6,10 +6,10 @@ import java.lang.reflect.Method;
 import at.yomi.benchmark.AbstractBenchmark;
 import at.yomi.benchmark.annotations.BM;
 import at.yomi.benchmark.annotations.BMIgnore;
-import at.yomi.functional.functor.FilterBenchmark;
-import at.yomi.functional.functor.FolderBenchmark;
-import at.yomi.functional.functor.MapFolderBenchmark;
-import at.yomi.functional.functor.MapperBenchmark;
+import at.yomi.functor.FilterBenchmark;
+import at.yomi.functor.FolderBenchmark;
+import at.yomi.functor.MapFolderBenchmark;
+import at.yomi.functor.MapperBenchmark;
 import at.yomi.mp.MPBenchmark;
 
 public class MainBenchmark {

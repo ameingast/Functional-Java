@@ -1,15 +1,17 @@
 package at.yomi.mp;
 
-public class AdderReceiver<A extends Number> extends AbstractReceiver<A> {
+import at.yomi.mp.receiver.Receiver1;
+
+public class AdderReceiver<A extends Number> extends AbstractReceiver implements
+		Receiver1<AddCast<A>> {
 	public Long count = new Long(0);
 
-	public void handle(final AddMessage msg) {
-		count += msg.content.longValue();
+	public void addNumber(final A num) {
+		new AddCast<A>(num).send(this);
 	}
 
-	public class AddMessage extends Message<A,A> {
-		public AddMessage(final AbstractReceiver<A> sender, final A content) {
-			super(sender, content);
-		}
+	@Override
+	public void handle(final AddCast<A> a) {
+		count += a.content.longValue();
 	}
 }

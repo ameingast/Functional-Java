@@ -4,51 +4,64 @@ import java.lang.reflect.Method;
 import java.util.Queue;
 import java.util.concurrent.Semaphore;
 
-import at.yomi.mp.util.BlockingLinkedList;
+import at.yomi.collection.BlockingLinkedList;
+import at.yomi.mp.exception.DeliveryException;
+import at.yomi.mp.message.AbstractMessage;
+import at.yomi.mp.message.ShutdownMessage;
+import at.yomi.mp.receiver.Receiver;
 
-public abstract class AbstractReceiver<A> extends Thread {
+// FIXME: interfaces can only be implemented once... hahahah
+public abstract class AbstractReceiver extends Thread implements Receiver {
 
-	private final Queue<Message<A,?>> msgs = new BlockingLinkedList<Message<A,?>>();
+	private final Queue<AbstractMessage<?>> msgs = new BlockingLinkedList<AbstractMessage<?>>();
 
 	private final Semaphore shutdownLock = new Semaphore(0);
 
 	private boolean shutdown = false;
 
+	// FIXME: when working w/ pool the whole thing deadlocks
 	public AbstractReceiver() {
-		start();
-		MP.register(this);
+		// ThreadPoolExecutorSingleton.getInstance().execute(this);
+		new Thread(this).start();
+		MPService.register(this);
 	}
 
 	public void run() {
-		Message<A,?> a = null;
+		AbstractMessage<?> msg = null;
 
 		try {
 			while (!shutdown)
-				if (null != (a = msgs.poll()))
-					findAndExecuteHandler(a);
+				if (null != (msg = msgs.poll()))
+					findAndExecuteHandler(msg);
 		} catch (final DeliveryException e) {
-			MP.unregister(this);
-			MP.shutDown();
+			MPService.unregister(this);
+			MPService.shutDown();
 			throw new RuntimeException(e);
 		}
 
 		shutdownLock.release();
 	}
 
-	public void receive(final Message<A,?> msg) {
-		msgs.add(msg);
-	}
-
 	public void shutDown() {
-		new ShutdownMessage<A>(null, null).send(this);
+		new ShutdownMessage().send(this);
 	}
 
 	public void waitForShutDown() throws InterruptedException {
 		shutdownLock.acquire();
 	}
 
-	public void handle(final ShutdownMessage<A> msg) {
+	// FIXME: use this approach for delivering isntread of findAndEx...
+	// public <T extends AbstractMessage<?>> void handle(final T msg) {
+	//
+	// }
+
+	public void handle(final ShutdownMessage msg) {
 		shutdown = true;
+	}
+
+	@Override
+	public <T extends AbstractMessage<?>> void receive(final T msg) {
+		msgs.add(msg);
 	}
 
 	/**
@@ -58,7 +71,7 @@ public abstract class AbstractReceiver<A> extends Thread {
 	 * 
 	 * @throws DeliveryException
 	 */
-	private void findAndExecuteHandler(final Message<A,?> a) throws DeliveryException {
+	private void findAndExecuteHandler(final AbstractMessage<?> a) throws DeliveryException {
 		try {
 			final Method m = getClass().getMethod("handle", a.getClass());
 			m.invoke(this, a);
