@@ -24,6 +24,6 @@ public class ParallelZip<A,B> extends Zip<A,B> {
 	}
 
 	protected ZipWith<A,B,Pair<A,B>> getZipper() {
-		return new ParallelZipWith<A,B,Pair<A,B>>(pairFunctor, workerCount, commitInterval) {};
+		return new ParallelZipWith<A,B,Pair<A,B>>(pairFunctor, workerCount, commitInterval);
 	}
 }

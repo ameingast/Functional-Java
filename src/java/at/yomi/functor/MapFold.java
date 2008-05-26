@@ -18,6 +18,6 @@ public class MapFold<A,B,C> implements Functor2<List<A>,C,C> {
 
 	@Override
 	public C apply(final List<A> as, final C c) {
-		return new Fold<B,C>(foldFunctor) {}.apply(new Map<A,B>(mapFunctor) {}.apply(as), c);
+		return new Fold<B,C>(foldFunctor).apply(new Map<A,B>(mapFunctor).apply(as), c);
 	}
 }

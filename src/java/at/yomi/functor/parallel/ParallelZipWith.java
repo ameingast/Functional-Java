@@ -38,7 +38,7 @@ public class ParallelZipWith<A,B,C> extends ZipWith<A,B,C> {
 
 	@Override
 	public List<C> apply(final List<A> as, final List<B> bs) {
-		return new ParallelMap<Pair<A,B>,C>(zipFunctor, workerCount, commitInterval) {}
+		return new ParallelMap<Pair<A,B>,C>(zipFunctor, workerCount, commitInterval)
 				.apply(new Zip<A,B>().apply(as, bs));
 	}
 }

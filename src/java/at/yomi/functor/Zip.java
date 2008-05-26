@@ -20,6 +20,6 @@ public class Zip<A,B> implements Functor2<List<A>,List<B>,List<Pair<A,B>>> {
 	}
 
 	protected ZipWith<A,B,Pair<A,B>> getZipper() {
-		return new ZipWith<A,B,Pair<A,B>>(pairFunctor) {};
+		return new ZipWith<A,B,Pair<A,B>>(pairFunctor);
 	}
 }
