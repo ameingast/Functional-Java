@@ -6,16 +6,22 @@ import java.util.Collection;
 import at.yomi.benchmark.AbstractBenchmark;
 import at.yomi.benchmark.BaseBenchmark;
 import at.yomi.benchmark.annotations.BM;
-import at.yomi.benchmark.annotations.BMIgnore;
+import at.yomi.functor.parallel.ParallelFilter;
 
 public class FilterBenchmark extends BaseBenchmark {
-	@BMIgnore
 	@BM
 	public static void bmFilterEven() {
 		new AbstractBenchmark("Filter even") {
 			@Override
 			public void benchmark() {
 				new Filter<Integer>(Utils.isEvenFunctor).apply(data);
+			}
+		};
+
+		new AbstractBenchmark("[5] Filter even") {
+			@Override
+			public void benchmark() {
+				new ParallelFilter<Integer>(Utils.isEvenFunctor).apply(data);
 			}
 		};
 

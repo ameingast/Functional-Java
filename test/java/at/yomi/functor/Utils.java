@@ -123,7 +123,7 @@ public class Utils {
 		return new Boolean(true);
 	}
 
-	public static Float tpoly(final Integer n) {
+	public static Float tpoly(final Integer k) {
 		float mu = (float) 10.0;
 		float x, s;
 		float pu = (float) 0.0;
@@ -131,6 +131,7 @@ public class Utils {
 		int j;
 		final float pol[] = new float[100];
 
+		final int n = 50;
 		x = (float) 0.2;
 		for (i = 0; i < n; i++) {
 			for (j = 0; j < 100; j++) {
