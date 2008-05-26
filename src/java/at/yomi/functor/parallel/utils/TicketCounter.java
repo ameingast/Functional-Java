@@ -1,6 +1,9 @@
 package at.yomi.functor.parallel.utils;
 
+import java.util.List;
 import java.util.concurrent.Semaphore;
+
+import at.yomi.collection.Enumeration;
 
 public class TicketCounter {
 	private final Semaphore counter;
@@ -25,5 +28,11 @@ public class TicketCounter {
 
 	public synchronized Integer getTicket() {
 		return tickets++;
+	}
+
+	public synchronized List<Integer> getTickets(final Integer amount) {
+		final List<Integer> result = new Enumeration(tickets, tickets + amount);
+		tickets += amount;
+		return result;
 	}
 }

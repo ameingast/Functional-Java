@@ -1,5 +1,5 @@
 package at.yomi.functor.f;
 
-public interface S<A> {
+public interface SideEffect<A> {
 	void apply(A s);
 }

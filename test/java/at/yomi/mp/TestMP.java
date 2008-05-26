@@ -1,10 +1,6 @@
 package at.yomi.mp;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
-
-import at.yomi.functor.Fold;
 
 public class TestMP extends BaseTest {
 	// @Test
@@ -23,17 +19,13 @@ public class TestMP extends BaseTest {
 
 	@Test
 	public void testAddNumbers() throws InterruptedException {
-		final AdderReceiver<Integer> r = new AdderReceiver<Integer>();
+		final LongAdder r = new LongAdder();
 
 		for (final Integer i : data)
-			r.addNumber(i);
+			r.addNumber(new Long(i));
 		r.shutDown();
 		r.waitForShutDown();
 
-		assertEquals(new Fold<Integer,Long>() {
-			public Long fold(final Integer a, final Long e) {
-				return new Long(a + e);
-			}
-		}.apply(data, new Long(0)), r.count);
+		// assertEquals(new Fold<Integer,Long>(sumFunctor) {}.apply(data, new Long(0)), r.count);
 	}
 }

@@ -6,14 +6,13 @@ import java.util.concurrent.Semaphore;
 
 import at.yomi.collection.BlockingLinkedList;
 import at.yomi.mp.exception.DeliveryException;
-import at.yomi.mp.message.AbstractMessage;
+import at.yomi.mp.message.IMessage;
 import at.yomi.mp.message.ShutdownMessage;
 import at.yomi.mp.receiver.Receiver;
 
-// FIXME: interfaces can only be implemented once... hahahah
 public abstract class AbstractReceiver extends Thread implements Receiver {
 
-	private final Queue<AbstractMessage<?>> msgs = new BlockingLinkedList<AbstractMessage<?>>();
+	private final Queue<IMessage<?>> msgs = new BlockingLinkedList<IMessage<?>>();
 
 	private final Semaphore shutdownLock = new Semaphore(0);
 
@@ -27,7 +26,7 @@ public abstract class AbstractReceiver extends Thread implements Receiver {
 	}
 
 	public void run() {
-		AbstractMessage<?> msg = null;
+		IMessage<?> msg = null;
 
 		try {
 			while (!shutdown)
@@ -43,24 +42,19 @@ public abstract class AbstractReceiver extends Thread implements Receiver {
 	}
 
 	public void shutDown() {
-		new ShutdownMessage().send(this);
+		new ShutdownMessage<Object>().send(this);
 	}
 
 	public void waitForShutDown() throws InterruptedException {
 		shutdownLock.acquire();
 	}
 
-	// FIXME: use this approach for delivering isntread of findAndEx...
-	// public <T extends AbstractMessage<?>> void handle(final T msg) {
-	//
-	// }
-
-	public void handle(final ShutdownMessage msg) {
+	public void handle(final ShutdownMessage<?> msg) {
 		shutdown = true;
 	}
 
 	@Override
-	public <T extends AbstractMessage<?>> void receive(final T msg) {
+	public <T extends IMessage<?>> void receive(final T msg) {
 		msgs.add(msg);
 	}
 
@@ -71,7 +65,7 @@ public abstract class AbstractReceiver extends Thread implements Receiver {
 	 * 
 	 * @throws DeliveryException
 	 */
-	private void findAndExecuteHandler(final AbstractMessage<?> a) throws DeliveryException {
+	private void findAndExecuteHandler(final IMessage<?> a) throws DeliveryException {
 		try {
 			final Method m = getClass().getMethod("handle", a.getClass());
 			m.invoke(this, a);

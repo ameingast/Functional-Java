@@ -2,18 +2,22 @@ package at.yomi.functor;
 
 import java.util.List;
 
-import at.yomi.functor.f.F2;
+import at.yomi.functor.f.FoldFunctor;
+import at.yomi.functor.f.Functor2;
 
-public abstract class Fold<A,B> implements F2<List<A>,B,B> {
+public class Fold<A,B> implements Functor2<List<A>,B,B> {
+	protected final FoldFunctor<A,B> functor;
 
-	public abstract B fold(final A a, final B e);
+	public Fold(final FoldFunctor<A,B> functor) {
+		this.functor = functor;
+	}
 
 	@Override
 	public B apply(final List<A> as, final B e) {
 		B b = e;
 
 		for (final A a : as)
-			b = fold(a, b);
+			b = functor.apply(a, b);
 		return b;
 	}
 }

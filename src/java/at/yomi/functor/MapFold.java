@@ -2,28 +2,22 @@ package at.yomi.functor;
 
 import java.util.List;
 
-import at.yomi.functor.f.F2;
+import at.yomi.functor.f.FoldFunctor;
+import at.yomi.functor.f.Functor2;
+import at.yomi.functor.f.MapFunctor;
 
-public abstract class MapFold<A,B,C> implements F2<List<A>,C,C> {
+public class MapFold<A,B,C> implements Functor2<List<A>,C,C> {
+	protected final FoldFunctor<B,C> foldFunctor;
 
-	private final MapFold<A,B,C> self = this;
+	protected final MapFunctor<A,B> mapFunctor;
 
-	public abstract B map(A a);
-
-	public abstract C fold(B b, C e);
+	public MapFold(final MapFunctor<A,B> mapFunctor, final FoldFunctor<B,C> foldFunctor) {
+		this.mapFunctor = mapFunctor;
+		this.foldFunctor = foldFunctor;
+	}
 
 	@Override
 	public C apply(final List<A> as, final C c) {
-		return new Fold<B,C>() {
-			@Override
-			public C fold(final B b, final C e) {
-				return self.fold(b, e);
-			}
-		}.apply(new Map<A,B>() {
-			@Override
-			public B map(final A a) {
-				return self.map(a);
-			}
-		}.apply(as), c);
+		return new Fold<B,C>(foldFunctor) {}.apply(new Map<A,B>(mapFunctor) {}.apply(as), c);
 	}
 }

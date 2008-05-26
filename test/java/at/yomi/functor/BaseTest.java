@@ -16,9 +16,11 @@ public class BaseTest {
 
 	protected static final Integer COMMIT_INTERVAL = 100;
 
-	protected List<Integer> data = getData(false);
+	protected final List<Integer> data = getData(false);
 
-	protected List<Integer> smallData = getData(true);
+	protected final List<Integer> smallData = getData(true);
+
+	protected final List<String> stringData = getStringData();
 
 	@Before
 	public void setUp() {
@@ -37,5 +39,15 @@ public class BaseTest {
 		for (Integer i = 0; i < SIZE; i++)
 			is.add(truncate ? r.nextInt() % 1000 : r.nextInt());
 		return is;
+	}
+
+	private List<String> getStringData() {
+		final List<String> data = new ArrayList<String>(1000);
+		final Random r = new Random();
+
+		for (Integer i = 0; i < 1000; i++)
+			data.add(new Integer(r.nextInt()).toString());
+
+		return data;
 	}
 }

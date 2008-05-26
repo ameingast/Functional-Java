@@ -2,56 +2,44 @@ package at.yomi.functor.parallel;
 
 import java.util.List;
 
-import at.yomi.functor.Fold;
 import at.yomi.functor.MapFold;
-import at.yomi.functor.f.F;
+import at.yomi.functor.f.FoldFunctor;
+import at.yomi.functor.f.MapFunctor;
 import at.yomi.functor.parallel.aggregator.Aggregator;
 import at.yomi.functor.parallel.aggregator.FoldAggregator;
-import at.yomi.functor.parallel.aggregator.Worker;
+import at.yomi.functor.parallel.aggregator.MapWorker;
 
-public abstract class ParallelMapFold<A,B,C> extends MapFold<A,B,C> {
-
-	private final MapFold<A,B,C> self = this;
-
+public class ParallelMapFold<A,B,C> extends MapFold<A,B,C> {
 	protected final Integer workerCount;
 
 	protected final Integer commitInterval;
 
-	protected Fold<B,C> folder = new Fold<B,C>() {
-		@Override
-		public C fold(B b, C e) {
-			return self.fold(b, e);
-		}
-	};
-
-	public ParallelMapFold() {
-		this(Worker.DEFAULT_WORKER_COUNT);
+	public ParallelMapFold(final MapFunctor<A,B> mapFunctor, final FoldFunctor<B,C> foldFunctor) {
+		this(mapFunctor, foldFunctor, MapWorker.DEFAULT_WORKER_COUNT);
 	}
 
-	public ParallelMapFold(final Integer workerCount) {
-		this(workerCount, Worker.DEFAULT_COMMIT_INTERVAL);
+	public ParallelMapFold(final MapFunctor<A,B> mapFunctor, final FoldFunctor<B,C> foldFunctor,
+			final Integer workerCount) {
+		this(mapFunctor, foldFunctor, workerCount, MapWorker.DEFAULT_COMMIT_INTERVAL);
 	}
 
-	public ParallelMapFold(final Integer workerCount, final Integer commitInterval) {
+	public ParallelMapFold(final MapFunctor<A,B> mapFunctor, final FoldFunctor<B,C> foldFunctor,
+			final Integer workerCount, final Integer commitInterval) {
+		super(mapFunctor, foldFunctor);
 		this.workerCount = workerCount;
 		this.commitInterval = commitInterval;
 	}
 
 	protected Aggregator<B,C> getFolderAggregator(final Integer itemCount, final C e) {
-		return new FoldAggregator<B,C>(itemCount, folder, e);
+		return new FoldAggregator<B,C>(itemCount, foldFunctor, e);
 	}
 
 	@Override
 	public C apply(final List<A> as, final C c) {
 		final Aggregator<B,C> aggregator = getFolderAggregator(as.size(), c);
 
-		Worker.createWorkers(workerCount, commitInterval, aggregator, as, true, new F<A,B>() {
-			public B apply(final A a) {
-				return map(a);
-			}
-		});
 		try {
-			return aggregator.getResult();
+			return MapWorker.start(workerCount, commitInterval, aggregator, as, mapFunctor);
 		} catch (final InterruptedException e) {
 			throw new RuntimeException(e);
 		}

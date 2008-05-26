@@ -31,4 +31,10 @@ public class ListAggregator<A> extends Aggregator<A,List<A>> {
 			results.add(pair.second);
 		return results;
 	}
+
+	@Override
+	public synchronized void add(final A a, final Integer amount) {
+		items.add(new Pair<Integer,A>(0, a));
+		counter.returnTickets(amount);
+	}
 }

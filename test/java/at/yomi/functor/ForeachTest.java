@@ -7,19 +7,19 @@ import java.util.List;
 
 import org.junit.Test;
 
-import at.yomi.functor.Foreach;
+import at.yomi.functor.f.SideEffect;
 
 public class ForeachTest extends BaseTest {
 	@Test
 	public void testSideEffects() {
 		final List<Integer> bs = new ArrayList<Integer>();
 
-		new Foreach<Integer>() {
+		new Foreach<Integer>(new SideEffect<Integer>() {
 			@Override
-			public void handle(final Integer a) {
-				bs.add(a);
+			public void apply(final Integer s) {
+				bs.add(s);
 			}
-		}.apply(data);
+		}).apply(data);
 
 		assertArrayEquals(data.toArray(), bs.toArray());
 	}

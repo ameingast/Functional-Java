@@ -2,7 +2,6 @@ package at.yomi.functor;
 
 import at.yomi.benchmark.AbstractBenchmark;
 import at.yomi.benchmark.BaseBenchmark;
-import at.yomi.benchmark.Utils;
 import at.yomi.benchmark.annotations.BM;
 import at.yomi.functor.parallel.ParallelMapFold;
 import at.yomi.functor.parallel.StrictParallelMapFold;
@@ -13,17 +12,8 @@ public class MapFoldBenchmark extends BaseBenchmark {
 		new AbstractBenchmark("MapFold (even) (count)") {
 			@Override
 			public void benchmark() {
-				new MapFold<Integer,Boolean,Integer>() {
-					@Override
-					public Integer fold(final Boolean b, final Integer e) {
-						return b ? e + 1 : e;
-					}
-
-					@Override
-					public Boolean map(final Integer a) {
-						return 0 == a % 2;
-					}
-				}.apply(data, 0);
+				new MapFold<Integer,Boolean,Integer>(Utils.isEvenFunctor, Utils.sumTruesFunctor)
+						.apply(data, 0);
 			}
 		};
 
@@ -44,51 +34,24 @@ public class MapFoldBenchmark extends BaseBenchmark {
 		new AbstractBenchmark("MapFold (TPoly) (count)") {
 			@Override
 			public void benchmark() {
-				new MapFold<Integer,Float,Float>() {
-					@Override
-					public Float fold(final Float b, final Float e) {
-						return b + e;
-					}
-
-					@Override
-					public Float map(final Integer a) {
-						return Utils.tpoly(a);
-					}
-				}.apply(data, new Float(0));
+				new MapFold<Integer,Float,Float>(Utils.tpolyFunctor, Utils.sumFloatFunctor).apply(
+						data, new Float(0));
 			}
 		};
 
 		new AbstractBenchmark("[5] MapFold (TPoly) (sum)") {
 			@Override
 			public void benchmark() {
-				new ParallelMapFold<Integer,Float,Float>(5) {
-					@Override
-					public Float fold(final Float b, final Float e) {
-						return e + b;
-					}
-
-					@Override
-					public Float map(final Integer a) {
-						return Utils.tpoly(a);
-					}
-				}.apply(data, new Float(0));
+				new ParallelMapFold<Integer,Float,Float>(Utils.tpolyFunctor, Utils.sumFloatFunctor,
+						5).apply(data, new Float(0));
 			}
 		};
 
 		new AbstractBenchmark("[5] StrictMapFold (TPoly) (sum)") {
 			@Override
 			public void benchmark() {
-				new StrictParallelMapFold<Integer,Float,Float>(5) {
-					@Override
-					public Float fold(final Float b, final Float e) {
-						return e + b;
-					}
-
-					@Override
-					public Float map(final Integer a) {
-						return Utils.tpoly(a);
-					}
-				}.apply(data, new Float(0));
+				new StrictParallelMapFold<Integer,Float,Float>(Utils.tpolyFunctor,
+						Utils.sumFloatFunctor, 5).apply(data, new Float(0));
 			}
 		};
 

@@ -4,52 +4,14 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import at.yomi.functor.MapFold;
-
 public class MapFoldTest extends BaseTest {
-
-	protected String concat(final Integer b, final String e) {
-		return e + b.toString();
-	}
-
-	protected Integer mulTen(final Integer a) {
-		return 10 * a;
-	}
-
-	protected Integer addOne(final Integer a) {
-		return a + 1;
-	}
-
-	protected Integer sum(final Integer a, final Integer b) {
-		return a + b;
-	}
-
 	protected MapFold<Integer,Integer,String> getMulTenConcatAsStringFolder() {
-		return new MapFold<Integer,Integer,String>() {
-			@Override
-			public String fold(final Integer b, final String e) {
-				return concat(b, e);
-			}
-
-			@Override
-			public Integer map(final Integer a) {
-				return mulTen(a);
-			}
-		};
+		return new MapFold<Integer,Integer,String>(Utils.mulTenFunctor,
+				Utils.toIntegerConcatFunctor);
 	}
 
 	protected MapFold<Integer,Integer,Integer> getAddOneSumFolder() {
-		return new MapFold<Integer,Integer,Integer>() {
-			@Override
-			public Integer fold(final Integer b, final Integer e) {
-				return sum(e, b);
-			}
-
-			@Override
-			public Integer map(final Integer a) {
-				return addOne(a);
-			}
-		};
+		return new MapFold<Integer,Integer,Integer>(Utils.addOneFunctor, Utils.sumFunctor);
 	}
 
 	@Test

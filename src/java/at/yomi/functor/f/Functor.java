@@ -1,5 +1,5 @@
 package at.yomi.functor.f;
 
-public interface F<A,B> {
+public interface Functor<A,B> {
 	B apply(A a);
 }

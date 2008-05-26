@@ -2,14 +2,18 @@ package at.yomi.functor;
 
 import java.util.List;
 
-import at.yomi.functor.f.S;
+import at.yomi.functor.f.SideEffect;
 
-public abstract class Foreach<A> implements S<List<A>> {
-	public abstract void handle(A a);
+public class Foreach<A> implements SideEffect<List<A>> {
+	private final SideEffect<A> sideEffect;
+
+	public Foreach(final SideEffect<A> sideEffect) {
+		this.sideEffect = sideEffect;
+	}
 
 	@Override
 	public void apply(final List<A> as) {
 		for (final A a : as)
-			handle(a);
+			sideEffect.apply(a);
 	}
 }

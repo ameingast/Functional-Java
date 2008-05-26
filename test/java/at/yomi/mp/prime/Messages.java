@@ -2,7 +2,7 @@
 //
 // import at.yomi.mp.message.Cast;
 // import at.yomi.mp.message.Info;
-// import at.yomi.mp.message.Message;
+// import at.yomi.mp.message.IMessage;
 // import at.yomi.mp.receiver.Receiver2;
 //
 // public class Messages {
@@ -27,7 +27,7 @@
 // }
 // }
 //
-// public class IsPrimeMessage extends Message<Integer,Integer> {
+// public class IsPrimeMessage extends IMessage<Integer,Integer> {
 // public IsPrimeMessage(final Receiver2<NoPrimeCast,FoundPrimeCast> sender,
 // final Integer content) {
 // super(sender, content);

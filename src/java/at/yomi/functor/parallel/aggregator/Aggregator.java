@@ -12,11 +12,17 @@ public abstract class Aggregator<A,B> {
 		this.counter = new TicketCounter(itemCount);
 	}
 
+	public abstract void add(A a, Integer amount);
+
 	public abstract void add(List<Pair<Integer,A>> items);
 
 	public abstract B getResult() throws InterruptedException;
 
 	public synchronized Integer getTicket() {
 		return counter.getTicket();
+	}
+
+	public synchronized List<Integer> getTickets(final Integer amount) {
+		return counter.getTickets(amount);
 	}
 }

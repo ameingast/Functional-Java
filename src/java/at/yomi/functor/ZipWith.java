@@ -3,10 +3,15 @@ package at.yomi.functor;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.yomi.functor.f.F2;
+import at.yomi.functor.f.Functor2;
+import at.yomi.functor.f.ZipWithFunctor;
 
-public abstract class ZipWith<A,B,C> implements F2<List<A>,List<B>,List<C>> {
-	public abstract C handle(final A a, final B b);
+public class ZipWith<A,B,C> implements Functor2<List<A>,List<B>,List<C>> {
+	protected final ZipWithFunctor<A,B,C> functor;
+
+	public ZipWith(final ZipWithFunctor<A,B,C> functor) {
+		this.functor = functor;
+	}
 
 	@Override
 	public List<C> apply(final List<A> as, final List<B> bs) {
@@ -15,11 +20,11 @@ public abstract class ZipWith<A,B,C> implements F2<List<A>,List<B>,List<C>> {
 
 		for (int i = 0; i < s; i++)
 			if (i < as.size() && i < bs.size())
-				cs.add(handle(as.get(i), bs.get(i)));
+				cs.add(functor.apply(as.get(i), bs.get(i)));
 			else if (i < as.size())
-				cs.add(handle(as.get(i), null));
+				cs.add(functor.apply(as.get(i), null));
 			else
-				cs.add(handle(null, bs.get(i)));
+				cs.add(functor.apply(null, bs.get(i)));
 
 		return cs;
 	}

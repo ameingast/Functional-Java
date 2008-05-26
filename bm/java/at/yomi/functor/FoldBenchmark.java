@@ -4,7 +4,6 @@ import at.yomi.benchmark.AbstractBenchmark;
 import at.yomi.benchmark.BaseBenchmark;
 import at.yomi.benchmark.annotations.BM;
 import at.yomi.benchmark.annotations.BMIgnore;
-import at.yomi.functor.Fold;
 
 public class FoldBenchmark extends BaseBenchmark {
 	@BM
@@ -13,12 +12,7 @@ public class FoldBenchmark extends BaseBenchmark {
 		new AbstractBenchmark("Folding (*)") {
 			@Override
 			public void benchmark() {
-				new Fold<Integer,Integer>() {
-					@Override
-					public Integer fold(final Integer a, final Integer e) {
-						return a * e;
-					}
-				}.apply(data, 1);
+				new Fold<Integer,Integer>(Utils.mulFunctor).apply(data, 1);
 			}
 		};
 
@@ -29,7 +23,6 @@ public class FoldBenchmark extends BaseBenchmark {
 
 				for (final Integer i : data)
 					r *= i;
-
 			}
 		};
 	}

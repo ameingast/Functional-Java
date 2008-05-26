@@ -7,25 +7,14 @@ import java.util.List;
 
 import org.junit.Test;
 
-import at.yomi.functor.Map;
-
 public class MapTest extends BaseTest {
+
 	protected Map<Integer,Integer> getMulTenMapper() {
-		return new Map<Integer,Integer>() {
-			@Override
-			public Integer map(final Integer a) {
-				return 10 * a;
-			}
-		};
+		return new Map<Integer,Integer>(Utils.mulTenFunctor);
 	}
 
 	protected Map<Integer,Integer> getAddOneMapper() {
-		return new Map<Integer,Integer>() {
-			@Override
-			public Integer map(final Integer a) {
-				return a + 1;
-			}
-		};
+		return new Map<Integer,Integer>(Utils.addOneFunctor);
 	}
 
 	@Test
