@@ -2,6 +2,7 @@ package at.yomi.functor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import at.yomi.functor.f.FilterFunctor;
 import at.yomi.functor.f.FoldFunctor;
@@ -167,5 +168,24 @@ public class Utils {
 
 	protected static Integer safeSum(final Integer a, final Integer b) {
 		return (a == null ? 0 : a) + (b == null ? 0 : b);
+	}
+
+	public static List<Integer> getData(final boolean truncate, final Integer size) {
+		final List<Integer> is = new ArrayList<Integer>(size);
+		final Random r = new Random();
+
+		for (Integer i = 0; i < size; i++)
+			is.add(truncate ? r.nextInt() % 1000 : r.nextInt());
+		return is;
+	}
+
+	public static List<String> getStringData(final Integer size) {
+		final List<String> data = new ArrayList<String>(size);
+		final Random r = new Random();
+
+		for (Integer i = 0; i < size; i++)
+			data.add(new Integer(r.nextInt()).toString());
+
+		return data;
 	}
 }
