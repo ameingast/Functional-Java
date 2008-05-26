@@ -18,16 +18,8 @@ public class TicketCounter {
 		counter.release(amount);
 	}
 
-	public void returnTicket() {
-		counter.release();
-	}
-
 	public void waitForLimit() throws InterruptedException {
 		counter.acquire();
-	}
-
-	public synchronized Integer getTicket() {
-		return tickets++;
 	}
 
 	public synchronized List<Integer> getTickets(final Integer amount) {

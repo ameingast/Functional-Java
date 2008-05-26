@@ -3,7 +3,7 @@ package at.yomi.mp;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class MPService {
+public abstract class MPService {
 	private static final List<AbstractReceiver> receivers = new ArrayList<AbstractReceiver>();
 
 	public static synchronized void register(final AbstractReceiver receiver) {

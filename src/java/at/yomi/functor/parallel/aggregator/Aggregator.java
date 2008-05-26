@@ -18,10 +18,6 @@ public abstract class Aggregator<A,B> {
 
 	public abstract B getResult() throws InterruptedException;
 
-	public synchronized Integer getTicket() {
-		return counter.getTicket();
-	}
-
 	public synchronized List<Integer> getTickets(final Integer amount) {
 		return counter.getTickets(amount);
 	}

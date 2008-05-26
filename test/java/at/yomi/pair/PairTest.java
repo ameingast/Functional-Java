@@ -1,6 +1,7 @@
 package at.yomi.pair;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,5 +33,8 @@ public class PairTest {
 			assertEquals(p2, pairs.get(0));
 			assertEquals(p1, pairs.get(1));
 		}
+		assertNotSame(new Pair<Integer,String>(null, null), p1);
+		assertNotSame(new Pair<Integer,String>(0, null), p1);
+		assertNotSame(new Pair<Integer,String>(null, "a"), p1);
 	}
 }
