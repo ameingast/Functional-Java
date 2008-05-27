@@ -18,7 +18,8 @@ public class MapBenchmark extends BaseBenchmark {
 		new AbstractBenchmark("[5] Mapping (isPrime)") {
 			@Override
 			public void benchmark() {
-				new ParallelMap<Integer,Boolean>(Utils.isPrimeFunctor, 5).apply(data);
+				new ParallelMap<Integer,Boolean>(Utils.isPrimeFunctor, WORKER_COUNT,
+						COMMIT_INTERVAL).apply(data);
 			}
 		};
 

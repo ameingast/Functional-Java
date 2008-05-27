@@ -6,7 +6,6 @@ import at.yomi.functor.Zip;
 import at.yomi.functor.ZipWith;
 import at.yomi.functor.f.MapFunctor;
 import at.yomi.functor.f.ZipWithFunctor;
-import at.yomi.functor.parallel.aggregator.MapWorker;
 import at.yomi.pair.Pair;
 
 public class ParallelZipWith<A,B,C> extends ZipWith<A,B,C> {
@@ -20,14 +19,6 @@ public class ParallelZipWith<A,B,C> extends ZipWith<A,B,C> {
 			return functor.apply(a.first, a.second);
 		}
 	};
-
-	public ParallelZipWith(final ZipWithFunctor<A,B,C> functor) {
-		this(functor, MapWorker.DEFAULT_WORKER_COUNT, MapWorker.DEFAULT_COMMIT_INTERVAL);
-	}
-
-	public ParallelZipWith(final ZipWithFunctor<A,B,C> functor, final Integer workerCount) {
-		this(functor, workerCount, MapWorker.DEFAULT_COMMIT_INTERVAL);
-	}
 
 	public ParallelZipWith(final ZipWithFunctor<A,B,C> functor, final Integer workerCount,
 			final Integer commitInterval) {

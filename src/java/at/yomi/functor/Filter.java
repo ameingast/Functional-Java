@@ -10,7 +10,7 @@ import at.yomi.functor.f.Functor;
 public class Filter<A> implements Functor<List<A>,List<A>> {
 	protected final FilterFunctor<A> functor;
 
-	protected FoldFunctor<A,List<A>> filterFunctor = new FoldFunctor<A,List<A>>() {
+	protected final FoldFunctor<A,List<A>> filterFunctor = new FoldFunctor<A,List<A>>() {
 		@Override
 		public List<A> apply(final A a, final List<A> b) {
 			if (functor.apply(a))

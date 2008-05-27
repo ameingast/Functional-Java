@@ -14,15 +14,6 @@ public class ParallelMapFold<A,B,C> extends MapFold<A,B,C> {
 
 	protected final Integer commitInterval;
 
-	public ParallelMapFold(final MapFunctor<A,B> mapFunctor, final FoldFunctor<B,C> foldFunctor) {
-		this(mapFunctor, foldFunctor, MapWorker.DEFAULT_WORKER_COUNT);
-	}
-
-	public ParallelMapFold(final MapFunctor<A,B> mapFunctor, final FoldFunctor<B,C> foldFunctor,
-			final Integer workerCount) {
-		this(mapFunctor, foldFunctor, workerCount, MapWorker.DEFAULT_COMMIT_INTERVAL);
-	}
-
 	public ParallelMapFold(final MapFunctor<A,B> mapFunctor, final FoldFunctor<B,C> foldFunctor,
 			final Integer workerCount, final Integer commitInterval) {
 		super(mapFunctor, foldFunctor);
@@ -30,18 +21,17 @@ public class ParallelMapFold<A,B,C> extends MapFold<A,B,C> {
 		this.commitInterval = commitInterval;
 	}
 
-	protected Aggregator<B,C> getFolderAggregator(final Integer itemCount, final C e) {
-		return new FoldAggregator<B,C>(itemCount, foldFunctor, e);
-	}
-
 	@Override
 	public C apply(final List<A> as, final C c) {
-		final Aggregator<B,C> aggregator = getFolderAggregator(as.size(), c);
-
 		try {
-			return MapWorker.start(workerCount, commitInterval, aggregator, as, mapFunctor);
+			return MapWorker.start(workerCount, commitInterval, getFolderAggregator(as.size(), c),
+					as, mapFunctor);
 		} catch (final InterruptedException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	protected Aggregator<B,C> getFolderAggregator(final Integer itemCount, final C e) {
+		return new FoldAggregator<B,C>(itemCount, foldFunctor, e);
 	}
 }

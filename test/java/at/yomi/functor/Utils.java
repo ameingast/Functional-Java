@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import at.yomi.functor.f.ExistsFunctor;
 import at.yomi.functor.f.FilterFunctor;
 import at.yomi.functor.f.FoldFunctor;
+import at.yomi.functor.f.ForAllFunctor;
 import at.yomi.functor.f.MapFunctor;
 import at.yomi.functor.f.UnZipWithFunctor;
 import at.yomi.functor.f.ZipWithFunctor;
@@ -102,10 +104,24 @@ public class Utils {
 		}
 	};
 
-	public static FoldFunctor<String,String> reverseStringFunctor = new FoldFunctor<String,String>() {
+	public static final ForAllFunctor<Integer> allEvensFunctor = new ForAllFunctor<Integer>() {
+		@Override
+		public Boolean apply(Integer a) {
+			return a % 2 == 0;
+		}
+	};
+
+	public static final FoldFunctor<String,String> reverseStringFunctor = new FoldFunctor<String,String>() {
 		@Override
 		public String apply(String a, String b) {
 			return reverse(a) + b;
+		}
+	};
+
+	public static final ExistsFunctor<Integer> existsEvenFuncor = new ExistsFunctor<Integer>() {
+		@Override
+		public Boolean apply(Integer a) {
+			return a % 2 == 0;
 		}
 	};
 
@@ -186,7 +202,24 @@ public class Utils {
 
 		for (Integer i = 0; i < size; i++)
 			data.add(new Integer(r.nextInt()).toString());
-
 		return data;
+	}
+
+	public static List<Integer> factorize(final Integer k) {
+		final List<Integer> results = new ArrayList<Integer>();
+
+		for (Integer i = 1; i < k; i++)
+			if (k % i == 0)
+				results.add(i);
+		return results;
+	}
+
+	public static List<Integer> primeFactorize(final Integer k) {
+		final List<Integer> results = new ArrayList<Integer>();
+
+		for (final Integer i : factorize(k))
+			if (isPrime(i))
+				results.add(i);
+		return results;
 	}
 }

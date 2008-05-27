@@ -7,16 +7,6 @@ import at.yomi.functor.parallel.aggregator.StrictFoldAggregator;
 
 public class StrictParallelMapFold<A,B,C> extends ParallelMapFold<A,B,C> {
 	public StrictParallelMapFold(final MapFunctor<A,B> mapFunctor,
-			final FoldFunctor<B,C> foldFunctor) {
-		super(mapFunctor, foldFunctor);
-	}
-
-	public StrictParallelMapFold(final MapFunctor<A,B> mapFunctor,
-			final FoldFunctor<B,C> foldFunctor, final Integer workerCount) {
-		super(mapFunctor, foldFunctor, workerCount);
-	}
-
-	public StrictParallelMapFold(final MapFunctor<A,B> mapFunctor,
 			final FoldFunctor<B,C> foldFunctor, final Integer workerCount,
 			final Integer commitInterval) {
 		super(mapFunctor, foldFunctor, workerCount, commitInterval);

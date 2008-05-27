@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import at.yomi.functor.parallel.aggregator.AbstractWorker;
+
 public abstract class BaseBenchmark {
 	protected static final Integer SIZE = 100000;
 
-	protected static final Integer WORKER_COUNT = 10;
+	protected static final Integer WORKER_COUNT = AbstractWorker.DEFAULT_WORKER_COUNT;
+
+	protected static final Integer COMMIT_INTERVAL = AbstractWorker.DEFAULT_COMMIT_INTERVAL;
 
 	protected static List<Integer> data = getData(SIZE);
 

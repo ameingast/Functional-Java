@@ -18,7 +18,8 @@ public class FoldBenchmark extends BaseBenchmark {
 		new AbstractBenchmark("[5] Folding (*)") {
 			@Override
 			public void benchmark() throws Exception {
-				new ParallelFold<Integer>(Utils.mulFunctor, WORKER_COUNT).apply(data, 1);
+				new ParallelFold<Integer>(Utils.mulFunctor, WORKER_COUNT, COMMIT_INTERVAL).apply(
+						data, 1);
 			}
 		};
 

@@ -8,7 +8,7 @@ import at.yomi.functor.f.UnZipWithFunctor;
 import at.yomi.pair.Pair;
 
 public class UnZipWith<A,B,C> implements Functor<List<Pair<A,B>>,List<C>> {
-	private final UnZipWithFunctor<A,B,C> functor;
+	protected final UnZipWithFunctor<A,B,C> functor;
 
 	protected final MapFunctor<Pair<A,B>,C> unpairFunctor = new MapFunctor<Pair<A,B>,C>() {
 		@Override
