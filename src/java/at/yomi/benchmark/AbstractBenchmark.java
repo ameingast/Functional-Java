@@ -32,7 +32,7 @@ public abstract class AbstractBenchmark {
 				System.out.print(".");
 			}
 			final long end = System.currentTimeMillis();
-			System.out.println(".\t| Execution took:\t" + timeTaken(start, end) + " ms");
+			System.out.println(". " + timeTaken(start, end) + " ms");
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}

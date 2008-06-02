@@ -1,6 +1,10 @@
 package at.yomi.functor;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -30,5 +34,23 @@ public class FoldTest extends BaseTest {
 		for (final String s : stringData)
 			buf += s;
 		assertEquals(Utils.reverse(buf), getStringReverseFold().apply(stringData, ""));
+	}
+
+	@Test
+	public void collectLists() {
+		final List<Integer> actual = new ArrayList<Integer>();
+		final List<List<?>> nestedData = new ArrayList<List<?>>();
+
+		nestedData.add(data);
+		actual.addAll(data);
+		nestedData.add(data);
+		actual.addAll(data);
+		nestedData.add(data);
+		actual.addAll(data);
+		nestedData.add(data);
+		actual.addAll(data);
+
+		assertArrayEquals(actual.toArray(), Utils.collectFold.apply(nestedData,
+				new ArrayList<Integer>()).toArray());
 	}
 }

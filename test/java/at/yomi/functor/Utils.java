@@ -41,6 +41,8 @@ public class Utils {
 		}
 	};
 
+	public final static Fold<Integer,Integer> sumFold = new Fold<Integer,Integer>(sumFunctor);
+
 	public final static FoldFunctor<Float,Float> sumFloatFunctor = new FoldFunctor<Float,Float>() {
 		@Override
 		public Float apply(Float a, Float b) {
@@ -84,10 +86,12 @@ public class Utils {
 	};
 
 	public final static FoldFunctor<Boolean,Integer> sumTruesFunctor = new FoldFunctor<Boolean,Integer>() {
+
 		@Override
 		public Integer apply(Boolean a, Integer b) {
 			return a ? b + 1 : b;
 		}
+
 	};
 
 	public final static MapFunctor<Integer,Float> tpolyFunctor = new MapFunctor<Integer,Float>() {
@@ -124,6 +128,36 @@ public class Utils {
 			return a % 2 == 0;
 		}
 	};
+
+	public static final MapFunctor<Integer,Integer> intPrimeFunctor = new MapFunctor<Integer,Integer>() {
+		@Override
+		public Integer apply(Integer a) {
+			return Utils.isPrime(a) ? a : 0;
+		}
+	};
+
+	public static final FoldFunctor<List<?>,List<?>> collectFunctor = new FoldFunctor<List<?>,List<?>>() {
+		@SuppressWarnings("unchecked")
+		@Override
+		public List<?> apply(List<?> a, List<?> b) {
+			((List) b).addAll(a);
+			return b;
+		}
+	};
+
+	public static final Fold<List<?>,List<?>> collectFold = new Fold<List<?>,List<?>>(
+			collectFunctor);
+
+	public static final TakeWhile<Integer> takeWhileEven = new TakeWhile<Integer>(isEvenFunctor);
+
+	public static final MapFunctor<Integer,Integer> evenFunctor = new MapFunctor<Integer,Integer>() {
+		@Override
+		public Integer apply(Integer a) {
+			return a % 2 == 0 ? a : 0;
+		}
+	};
+
+	public static final Map<Integer,Integer> evenMap = new Map<Integer,Integer>(evenFunctor);
 
 	public static String reverse(final String a) {
 		String r = "";

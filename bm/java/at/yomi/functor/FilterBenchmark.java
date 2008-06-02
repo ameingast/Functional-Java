@@ -5,11 +5,9 @@ import java.util.Collection;
 
 import at.yomi.benchmark.AbstractBenchmark;
 import at.yomi.benchmark.BaseBenchmark;
-import at.yomi.benchmark.annotations.BM;
 import at.yomi.functor.parallel.ParallelFilter;
 
 public class FilterBenchmark extends BaseBenchmark {
-	@BM
 	public static void bmFilterEven() {
 		new AbstractBenchmark("Filter even") {
 			@Override

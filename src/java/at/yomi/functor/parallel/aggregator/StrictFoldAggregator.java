@@ -7,6 +7,7 @@ import java.util.List;
 import at.yomi.functor.f.FoldFunctor;
 import at.yomi.pair.Pair;
 import at.yomi.pair.PairFirstElementComparator;
+import at.yomi.pair.functor.FoldSecond;
 
 public class StrictFoldAggregator<A,B> extends FoldAggregator<A,B> {
 	protected List<Pair<Integer,A>> items = new ArrayList<Pair<Integer,A>>();
@@ -26,6 +27,6 @@ public class StrictFoldAggregator<A,B> extends FoldAggregator<A,B> {
 	public B getResult() throws InterruptedException {
 		counter.waitForLimit();
 		Collections.sort(items, new PairFirstElementComparator<Integer,A>());
-		return e = pairFold.apply(items, e);
+		return new FoldSecond<Integer,A,B>(foldFunctor).apply(items, e);
 	}
 }

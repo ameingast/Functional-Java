@@ -5,9 +5,11 @@ import java.util.List;
 import at.yomi.functor.Utils;
 
 public class BaseTest {
-	protected static final Integer WORKER_COUNT = 10;
+	public static final Integer WORKER_COUNT = 10;
 
-	protected static final Integer ITEMS = 10000;
+	public static final Integer SIZE = 10000;
 
-	protected List<Integer> data = Utils.getData(false, ITEMS);
+	public final List<Integer> data = Utils.getData(false, SIZE);
+
+	public final List<Integer> smallData = Utils.getData(true, SIZE);
 }

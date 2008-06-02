@@ -8,20 +8,20 @@ import at.yomi.functor.f.Functor;
 import at.yomi.functor.f.MapFunctor;
 
 public class FlatMap<A,B> implements Functor<List<List<A>>,List<B>> {
-	protected final MapFunctor<A,B> functor;
+	public final MapFunctor<A,B> functor;
 
 	public FlatMap(final MapFunctor<A,B> functor) {
 		this.functor = functor;
 	}
 
-	protected MapFunctor<List<A>,List<B>> mapFunctor = new MapFunctor<List<A>,List<B>>() {
+	public MapFunctor<List<A>,List<B>> mapFunctor = new MapFunctor<List<A>,List<B>>() {
 		@Override
 		public List<B> apply(List<A> a) {
 			return new Map<A,B>(functor).apply(a);
 		}
 	};
 
-	protected FoldFunctor<List<B>,List<B>> foldFunctor = new FoldFunctor<List<B>,List<B>>() {
+	public FoldFunctor<List<B>,List<B>> foldFunctor = new FoldFunctor<List<B>,List<B>>() {
 		@Override
 		public List<B> apply(List<B> a, List<B> b) {
 			b.addAll(a);

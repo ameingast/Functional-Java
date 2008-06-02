@@ -9,7 +9,7 @@ import at.yomi.functor.parallel.PFService;
 import at.yomi.functor.parallel.aggregator.AbstractWorker;
 
 public class BaseTest {
-	public static final Integer SIZE = 10000;
+	public static final Integer SIZE = 1000;
 
 	public static final Integer WORKER_COUNT = AbstractWorker.DEFAULT_WORKER_COUNT;
 

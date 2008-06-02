@@ -2,18 +2,25 @@ package at.yomi.functor;
 
 import at.yomi.benchmark.AbstractBenchmark;
 import at.yomi.benchmark.BaseBenchmark;
-import at.yomi.benchmark.annotations.BM;
 import at.yomi.functor.parallel.ParallelMapFold;
 import at.yomi.functor.parallel.StrictParallelMapFold;
 
 public class MapFoldBenchmark extends BaseBenchmark {
-	@BM
+
 	public static void bmCountEven() {
 		new AbstractBenchmark("MapFold (even) (count)") {
 			@Override
 			public void benchmark() {
 				new MapFold<Integer,Boolean,Integer>(Utils.isEvenFunctor, Utils.sumTruesFunctor)
 						.apply(data, 0);
+			}
+		};
+
+		new AbstractBenchmark("[P] MapFold (even) (count)") {
+			@Override
+			public void benchmark() {
+				new ParallelMapFold<Integer,Boolean,Integer>(Utils.isEvenFunctor,
+						Utils.sumTruesFunctor, WORKER_COUNT, COMMIT_INTERVAL).apply(data, 0);
 			}
 		};
 
@@ -29,7 +36,6 @@ public class MapFoldBenchmark extends BaseBenchmark {
 		};
 	}
 
-	@BM
 	public static void bmCountPrimes() {
 		new AbstractBenchmark("MapFold (TPoly) (count)") {
 			@Override
@@ -39,7 +45,7 @@ public class MapFoldBenchmark extends BaseBenchmark {
 			}
 		};
 
-		new AbstractBenchmark("[5] MapFold (TPoly) (sum)") {
+		new AbstractBenchmark("[P] MapFold (TPoly) (sum)") {
 			@Override
 			public void benchmark() {
 				new ParallelMapFold<Integer,Float,Float>(Utils.tpolyFunctor, Utils.sumFloatFunctor,
@@ -47,7 +53,7 @@ public class MapFoldBenchmark extends BaseBenchmark {
 			}
 		};
 
-		new AbstractBenchmark("[5] StrictMapFold (TPoly) (sum)") {
+		new AbstractBenchmark("[P] StrictMapFold (TPoly) (sum)") {
 			@Override
 			public void benchmark() {
 				new StrictParallelMapFold<Integer,Float,Float>(Utils.tpolyFunctor,

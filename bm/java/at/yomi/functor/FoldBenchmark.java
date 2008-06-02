@@ -2,11 +2,9 @@ package at.yomi.functor;
 
 import at.yomi.benchmark.AbstractBenchmark;
 import at.yomi.benchmark.BaseBenchmark;
-import at.yomi.benchmark.annotations.BM;
 import at.yomi.functor.parallel.ParallelFold;
 
 public class FoldBenchmark extends BaseBenchmark {
-	@BM
 	public static void bmProduct() {
 		new AbstractBenchmark("Folding (*)") {
 			@Override

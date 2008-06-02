@@ -6,13 +6,13 @@ import java.util.concurrent.Semaphore;
 
 import at.yomi.collection.BlockingLinkedList;
 import at.yomi.mp.exception.DeliveryException;
-import at.yomi.mp.message.IMessage;
+import at.yomi.mp.message.Info;
 import at.yomi.mp.message.ShutdownMessage;
 import at.yomi.mp.receiver.Receiver;
 
 public abstract class AbstractReceiver extends Thread implements Receiver {
 
-	private final Queue<IMessage<?>> msgs = new BlockingLinkedList<IMessage<?>>();
+	private final Queue<Info> msgs = new BlockingLinkedList<Info>();
 
 	private final Semaphore shutdownLock = new Semaphore(0);
 
@@ -26,7 +26,7 @@ public abstract class AbstractReceiver extends Thread implements Receiver {
 	}
 
 	public void run() {
-		IMessage<?> msg = null;
+		Info msg = null;
 
 		try {
 			while (!shutdown)
@@ -42,19 +42,20 @@ public abstract class AbstractReceiver extends Thread implements Receiver {
 	}
 
 	public void shutDown() {
-		new ShutdownMessage<Object>().send(this);
+		new ShutdownMessage().send(this);
 	}
 
 	public void waitForShutDown() throws InterruptedException {
 		shutdownLock.acquire();
 	}
 
-	public void handle(final ShutdownMessage<?> msg) {
+	@Override
+	public void handle(final ShutdownMessage msg) {
 		shutdown = true;
 	}
 
 	@Override
-	public <T extends IMessage<?>> void receive(final T msg) {
+	public void receive(final Info msg) {
 		msgs.add(msg);
 	}
 
@@ -65,17 +66,22 @@ public abstract class AbstractReceiver extends Thread implements Receiver {
 	 * 
 	 * @throws DeliveryException
 	 */
-	private void findAndExecuteHandler(final IMessage<?> a) throws DeliveryException {
+	private void findAndExecuteHandler(final Info a) throws DeliveryException {
 		try {
-			final Method m = getClass().getMethod("handle", a.getClass());
-			m.invoke(this, a);
-		} catch (final NoSuchMethodException e) {
-			e.printStackTrace();
+			for (final Method m : getClass().getMethods()) {
+				if (!m.getName().startsWith("handle"))
+					continue;
+				if (m.getParameterTypes().length > 0
+						&& m.getParameterTypes()[0].equals(a.getClass())) {
+					m.invoke(this, a);
+					return;
+				}
+			}
+			throw new Exception();
+		} catch (final Exception e) {
 			throw new DeliveryException(this + ": Could not deliver message <" + a + ">, because <"
 					+ getClass() + "> is not able to receive messages of type <" + a.getClass()
 					+ ">");
-		} catch (final Exception e) {
-			throw new DeliveryException(e);
 		}
 	}
 }

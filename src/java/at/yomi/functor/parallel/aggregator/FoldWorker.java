@@ -5,7 +5,9 @@ import java.util.List;
 
 import at.yomi.functor.Fold;
 import at.yomi.functor.f.FoldFunctor;
-import at.yomi.pair.Pair;
+import at.yomi.pair.functor.FoldSecond;
+
+;
 
 public class FoldWorker<A,B> extends AbstractWorker<A,B> {
 	private final B e;
@@ -32,10 +34,6 @@ public class FoldWorker<A,B> extends AbstractWorker<A,B> {
 
 	@Override
 	public void run() {
-		B b = e;
-
-		for (final Pair<Integer,A> pair : items)
-			b = functor.apply(pair.second, b);
-		aggregator.add(b, items.size());
+		aggregator.add(new FoldSecond<Integer,A,B>(functor).apply(items, e), items.size());
 	}
 }
