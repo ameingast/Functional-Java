@@ -6,6 +6,6 @@ import at.yomi.functor.Utils;
 
 public class ParallelForAllTest extends ForAllTest {
 	protected ForAll<Integer> getAllEvens() {
-		return new ParallelForAll<Integer>(Utils.allEvensFunctor, WORKER_COUNT, COMMIT_INTERVAL);
+		return new ParallelForAll<Integer>(Utils.allEvensFunctor);
 	}
 }

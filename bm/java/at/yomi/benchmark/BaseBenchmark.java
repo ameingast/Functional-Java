@@ -11,8 +11,6 @@ public abstract class BaseBenchmark {
 
 	protected static final Integer WORKER_COUNT = AbstractWorker.DEFAULT_WORKER_COUNT;
 
-	protected static final Integer COMMIT_INTERVAL = AbstractWorker.DEFAULT_COMMIT_INTERVAL;
-
 	protected static List<Integer> data = getData(SIZE);
 
 	private static List<Integer> getData(final Integer size) {

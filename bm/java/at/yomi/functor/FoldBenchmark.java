@@ -3,9 +3,10 @@ package at.yomi.functor;
 import at.yomi.benchmark.AbstractBenchmark;
 import at.yomi.benchmark.BaseBenchmark;
 import at.yomi.functor.parallel.ParallelFold;
+import at.yomi.utils.Functors;
 
 public class FoldBenchmark extends BaseBenchmark {
-	public static void bmProduct() {
+	public static void bmFold() {
 		new AbstractBenchmark("Folding (*)") {
 			@Override
 			public void benchmark() {
@@ -13,11 +14,10 @@ public class FoldBenchmark extends BaseBenchmark {
 			}
 		};
 
-		new AbstractBenchmark("[5] Folding (*)") {
+		new AbstractBenchmark("[P] Folding (*)") {
 			@Override
 			public void benchmark() throws Exception {
-				new ParallelFold<Integer>(Utils.mulFunctor, WORKER_COUNT, COMMIT_INTERVAL).apply(
-						data, 1);
+				new ParallelFold<Integer>(Utils.mulFunctor).apply(data, 1);
 			}
 		};
 
@@ -28,6 +28,30 @@ public class FoldBenchmark extends BaseBenchmark {
 
 				for (final Integer i : data)
 					r *= i;
+			}
+		};
+
+		new AbstractBenchmark("Folding (+)") {
+			@Override
+			public void benchmark() throws Exception {
+				Functors.sumFold.apply(data, 0);
+			}
+		};
+
+		new AbstractBenchmark("[P] Folding (+)") {
+			@Override
+			public void benchmark() throws Exception {
+				Functors.pSumFold.apply(data, 0);
+			}
+		};
+
+		new AbstractBenchmark("Iterating (+)") {
+			@Override
+			public void benchmark() {
+				Integer r = 1;
+
+				for (final Integer i : data)
+					r += i;
 			}
 		};
 	}

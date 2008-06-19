@@ -25,10 +25,6 @@ public class Filter<A> implements Functor<List<A>,List<A>> {
 
 	@Override
 	public List<A> apply(final List<A> as) {
-		return getFold().apply(as, new ArrayList<A>());
-	}
-
-	protected Fold<A,List<A>> getFold() {
-		return new Fold<A,List<A>>(filterFunctor);
+		return new Fold<A,List<A>>(filterFunctor).apply(as, new ArrayList<A>(as.size()));
 	}
 }

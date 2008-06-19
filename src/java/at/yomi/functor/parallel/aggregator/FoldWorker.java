@@ -7,27 +7,24 @@ import at.yomi.functor.Fold;
 import at.yomi.functor.f.FoldFunctor;
 import at.yomi.pair.functor.FoldSecond;
 
-;
-
 public class FoldWorker<A,B> extends AbstractWorker<A,B> {
 	private final B e;
 
 	private final FoldFunctor<A,B> functor;
 
-	public static <A> A start(final Integer workerCount, final Integer commitInterval,
-			final ListAggregator<A> aggregator, final List<A> as,
-			final FoldFunctor<A,A> foldFunctor, final A e) throws InterruptedException {
+	public static <A> A start(final Integer workerCount, final ListAggregator<A> aggregator,
+			final List<A> as, final FoldFunctor<A,A> foldFunctor, final A e)
+			throws InterruptedException {
 		final List<AbstractWorker<A,A>> workers = new ArrayList<AbstractWorker<A,A>>(workerCount);
 
 		for (int i = 0; i < workerCount; i++)
-			workers.add(new FoldWorker<A,A>(commitInterval, aggregator, foldFunctor, e));
+			workers.add(new FoldWorker<A,A>(aggregator, foldFunctor, e));
 		setWork(workers, as);
 		return new Fold<A,A>(foldFunctor).apply(aggregator.getResult(), e);
 	}
 
-	public FoldWorker(final Integer commitInterval, final Aggregator<B,?> aggregator,
-			final FoldFunctor<A,B> functor, final B e) {
-		super(commitInterval, aggregator);
+	public FoldWorker(final Aggregator<B,?> aggregator, final FoldFunctor<A,B> functor, final B e) {
+		super(aggregator);
 		this.functor = functor;
 		this.e = e;
 	}

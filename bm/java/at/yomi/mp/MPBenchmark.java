@@ -2,14 +2,12 @@ package at.yomi.mp;
 
 import at.yomi.benchmark.AbstractBenchmark;
 import at.yomi.benchmark.BaseBenchmark;
-import at.yomi.benchmark.annotations.BM;
 import at.yomi.functor.MapFold;
 import at.yomi.functor.Utils;
 import at.yomi.functor.parallel.ParallelMapFold;
 import at.yomi.mp.prime.PrimeAggregator;
 
 public class MPBenchmark extends BaseBenchmark {
-	@BM
 	public static void bmSumPrimes() {
 		new AbstractBenchmark("[MP] PrimeReceiver (isPrime) (sum)") {
 			@Override
@@ -43,7 +41,7 @@ public class MPBenchmark extends BaseBenchmark {
 			@Override
 			public void benchmark() throws Exception {
 				new ParallelMapFold<Integer,Integer,Integer>(Utils.intPrimeFunctor,
-						Utils.sumFunctor, WORKER_COUNT, COMMIT_INTERVAL).apply(data, 0);
+						Utils.sumFunctor).apply(data, 0);
 			}
 		};
 

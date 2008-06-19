@@ -11,6 +11,7 @@ import at.yomi.functor.f.ForAllFunctor;
 import at.yomi.functor.f.MapFunctor;
 import at.yomi.functor.f.UnZipWithFunctor;
 import at.yomi.functor.f.ZipWithFunctor;
+import at.yomi.pair.Pair;
 
 public class Utils {
 	public final static FilterFunctor<Integer> isEvenFunctor = new FilterFunctor<Integer>() {
@@ -115,7 +116,7 @@ public class Utils {
 		}
 	};
 
-	public static final FoldFunctor<String,String> reverseStringFunctor = new FoldFunctor<String,String>() {
+	public static final FoldFunctor<String,String> reverseStringFoldFunctor = new FoldFunctor<String,String>() {
 		@Override
 		public String apply(String a, String b) {
 			return reverse(a) + b;
@@ -154,6 +155,23 @@ public class Utils {
 		@Override
 		public Integer apply(Integer a) {
 			return a % 2 == 0 ? a : 0;
+		}
+	};
+
+	public static final MapFunctor<String,Pair<String,String>> reverseStringToPairFunctor = new MapFunctor<String,Pair<String,String>>() {
+		@Override
+		public Pair<String,String> apply(String a) {
+			return new Pair<String,String>(a, reverse(a));
+		}
+	};
+
+	public static final FoldFunctor<Pair<String,String>,List<String>> collectPalindromes = new FoldFunctor<Pair<String,String>,List<String>>() {
+
+		@Override
+		public List<String> apply(Pair<String,String> a, List<String> b) {
+			if (a.first != null && a.first.equals(a.second))
+				b.add(a.first);
+			return b;
 		}
 	};
 

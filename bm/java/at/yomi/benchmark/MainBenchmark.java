@@ -9,16 +9,17 @@ import at.yomi.functor.FilterBenchmark;
 import at.yomi.functor.FoldBenchmark;
 import at.yomi.functor.MapBenchmark;
 import at.yomi.functor.MapFoldBenchmark;
+import at.yomi.functor.SortBenchmark;
 import at.yomi.functor.parallel.PFService;
 import at.yomi.mp.MPBenchmark;
 import at.yomi.mp.MPService;
 
 public class MainBenchmark {
-	private static Class<?>[] classes = { FilterBenchmark.class, FoldBenchmark.class,
-			MapFoldBenchmark.class, MapBenchmark.class, MPBenchmark.class };
+	private static Class<?>[] classes = { FilterBenchmark.class, FoldBenchmark.class, MapFoldBenchmark.class,
+			MapBenchmark.class, MPBenchmark.class, SortBenchmark.class };
 
-	public static void main(final String[] args) throws IllegalArgumentException,
-			IllegalAccessException, InvocationTargetException {
+	public static void main(final String[] args) throws IllegalArgumentException, IllegalAccessException,
+			InvocationTargetException {
 		MPService.startUp();
 		PFService.startUp();
 		for (final Class<?> klass : classes)

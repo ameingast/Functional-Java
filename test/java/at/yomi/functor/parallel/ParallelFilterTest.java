@@ -6,6 +6,6 @@ import at.yomi.functor.Utils;
 
 public class ParallelFilterTest extends FilterTest {
 	protected Filter<Integer> getEvenFilter() {
-		return new ParallelFilter<Integer>(Utils.isEvenFunctor, WORKER_COUNT, COMMIT_INTERVAL);
+		return new ParallelFilter<Integer>(Utils.isEvenFunctor);
 	}
 }

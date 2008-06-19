@@ -20,7 +20,7 @@ public class MapFoldBenchmark extends BaseBenchmark {
 			@Override
 			public void benchmark() {
 				new ParallelMapFold<Integer,Boolean,Integer>(Utils.isEvenFunctor,
-						Utils.sumTruesFunctor, WORKER_COUNT, COMMIT_INTERVAL).apply(data, 0);
+						Utils.sumTruesFunctor).apply(data, 0);
 			}
 		};
 
@@ -48,8 +48,8 @@ public class MapFoldBenchmark extends BaseBenchmark {
 		new AbstractBenchmark("[P] MapFold (TPoly) (sum)") {
 			@Override
 			public void benchmark() {
-				new ParallelMapFold<Integer,Float,Float>(Utils.tpolyFunctor, Utils.sumFloatFunctor,
-						WORKER_COUNT, COMMIT_INTERVAL).apply(data, new Float(0));
+				new ParallelMapFold<Integer,Float,Float>(Utils.tpolyFunctor, Utils.sumFloatFunctor)
+						.apply(data, new Float(0));
 			}
 		};
 
@@ -57,8 +57,7 @@ public class MapFoldBenchmark extends BaseBenchmark {
 			@Override
 			public void benchmark() {
 				new StrictParallelMapFold<Integer,Float,Float>(Utils.tpolyFunctor,
-						Utils.sumFloatFunctor, WORKER_COUNT, COMMIT_INTERVAL).apply(data,
-						new Float(0));
+						Utils.sumFloatFunctor).apply(data, new Float(0));
 			}
 		};
 

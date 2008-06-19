@@ -14,7 +14,7 @@ public class FoldTest extends BaseTest {
 	}
 
 	protected Fold<String,String> getStringReverseFold() {
-		return new Fold<String,String>(Utils.reverseStringFunctor);
+		return new Fold<String,String>(Utils.reverseStringFoldFunctor);
 	}
 
 	@Test

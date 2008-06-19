@@ -6,7 +6,6 @@ import at.yomi.functor.Utils;
 
 public class ParallelFlatMapTest extends FlatMapTest {
 	protected FlatMap<Integer,Integer> getMulTenFlatMap() {
-		return new ParallelFlatMap<Integer,Integer>(Utils.mulTenFunctor, WORKER_COUNT,
-				COMMIT_INTERVAL);
+		return new ParallelFlatMap<Integer,Integer>(Utils.mulTenFunctor);
 	}
 }

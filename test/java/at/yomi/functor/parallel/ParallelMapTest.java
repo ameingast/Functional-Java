@@ -7,11 +7,11 @@ import at.yomi.functor.Utils;
 public class ParallelMapTest extends MapTest {
 	@Override
 	protected Map<Integer,Integer> getAddOneMapper() {
-		return new ParallelMap<Integer,Integer>(Utils.addOneFunctor, WORKER_COUNT, COMMIT_INTERVAL);
+		return new ParallelMap<Integer,Integer>(Utils.addOneFunctor);
 	}
 
 	@Override
 	protected Map<Integer,Integer> getMulTenMapper() {
-		return new ParallelMap<Integer,Integer>(Utils.mulTenFunctor, WORKER_COUNT, COMMIT_INTERVAL);
+		return new ParallelMap<Integer,Integer>(Utils.mulTenFunctor);
 	}
 }

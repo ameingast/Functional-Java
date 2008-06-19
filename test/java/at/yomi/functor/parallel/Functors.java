@@ -9,6 +9,6 @@ public abstract class Functors extends BaseTest {
 			Utils.isPrimeFunctor);
 
 	public static final Map<Integer,Boolean> pPrimeMap = new ParallelMap<Integer,Boolean>(
-			Utils.isPrimeFunctor, WORKER_COUNT, COMMIT_INTERVAL);
+			Utils.isPrimeFunctor, WORKER_COUNT);
 
 }

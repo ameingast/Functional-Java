@@ -6,7 +6,6 @@ import at.yomi.functor.Utils;
 
 public class ParallelUnzipWithTest extends UnZipWithTest {
 	protected UnZipWith<Integer,Integer,Integer> getPairAdder() {
-		return new ParallelUnZipWith<Integer,Integer,Integer>(Utils.safePairAddFunctor,
-				WORKER_COUNT, COMMIT_INTERVAL);
+		return new ParallelUnZipWith<Integer,Integer,Integer>(Utils.safePairAddFunctor);
 	}
 }

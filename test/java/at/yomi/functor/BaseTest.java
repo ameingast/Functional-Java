@@ -13,8 +13,6 @@ public class BaseTest {
 
 	public static final Integer WORKER_COUNT = AbstractWorker.DEFAULT_WORKER_COUNT;
 
-	public static final Integer COMMIT_INTERVAL = AbstractWorker.DEFAULT_COMMIT_INTERVAL;
-
 	public static final List<Integer> data = Utils.getData(false, SIZE);
 
 	public static final List<Integer> smallData = Utils.getData(true, SIZE);

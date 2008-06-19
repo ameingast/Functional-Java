@@ -6,11 +6,10 @@ import at.yomi.functor.Exists;
 import at.yomi.functor.f.ExistsFunctor;
 import at.yomi.functor.f.FoldFunctor;
 import at.yomi.functor.f.MapFunctor;
+import at.yomi.functor.parallel.aggregator.AbstractWorker;
 
 public class ParallelExists<A> extends Exists<A> {
 	protected final Integer workerCount;
-
-	protected final Integer commitInterval;
 
 	protected final MapFunctor<A,Boolean> mapFunctor = new MapFunctor<A,Boolean>() {
 		@Override
@@ -26,16 +25,18 @@ public class ParallelExists<A> extends Exists<A> {
 		}
 	};
 
-	public ParallelExists(final ExistsFunctor<A> functor, final Integer workerCount,
-			final Integer commitInterval) {
+	public ParallelExists(final ExistsFunctor<A> functor) {
+		this(functor, AbstractWorker.DEFAULT_WORKER_COUNT);
+	}
+
+	public ParallelExists(final ExistsFunctor<A> functor, final Integer workerCount) {
 		super(functor);
 		this.workerCount = workerCount;
-		this.commitInterval = commitInterval;
 	}
 
 	@Override
 	public Boolean apply(final List<A> as) {
-		return new ParallelMapFold<A,Boolean,Boolean>(mapFunctor, foldFunctor, workerCount,
-				commitInterval).apply(as, true);
+		return new ParallelMapFold<A,Boolean,Boolean>(mapFunctor, foldFunctor, workerCount).apply(
+				as, true);
 	}
 }

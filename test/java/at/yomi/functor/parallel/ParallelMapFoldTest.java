@@ -8,12 +8,11 @@ public class ParallelMapFoldTest extends MapFoldTest {
 	@Override
 	protected MapFold<Integer,Integer,String> getMulTenConcatAsStringFolder() {
 		return new StrictParallelMapFold<Integer,Integer,String>(Utils.mulTenFunctor,
-				Utils.toIntegerConcatFunctor, WORKER_COUNT, COMMIT_INTERVAL);
+				Utils.toIntegerConcatFunctor);
 	}
 
 	@Override
 	protected MapFold<Integer,Integer,Integer> getAddOneSumFolder() {
-		return new ParallelMapFold<Integer,Integer,Integer>(Utils.addOneFunctor, Utils.sumFunctor,
-				WORKER_COUNT, COMMIT_INTERVAL);
+		return new ParallelMapFold<Integer,Integer,Integer>(Utils.addOneFunctor, Utils.sumFunctor);
 	}
 }

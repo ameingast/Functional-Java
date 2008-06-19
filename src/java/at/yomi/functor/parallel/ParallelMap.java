@@ -4,26 +4,26 @@ import java.util.List;
 
 import at.yomi.functor.Map;
 import at.yomi.functor.f.MapFunctor;
+import at.yomi.functor.parallel.aggregator.AbstractWorker;
 import at.yomi.functor.parallel.aggregator.ListAggregator;
 import at.yomi.functor.parallel.aggregator.MapWorker;
 
 public class ParallelMap<A,B> extends Map<A,B> {
 	protected final Integer workerCount;
 
-	protected final Integer commitInterval;
+	public ParallelMap(final MapFunctor<A,B> functor) {
+		this(functor, AbstractWorker.DEFAULT_WORKER_COUNT);
+	}
 
-	public ParallelMap(final MapFunctor<A,B> functor, final Integer workerCount,
-			final Integer commitInterval) {
+	public ParallelMap(final MapFunctor<A,B> functor, final Integer workerCount) {
 		super(functor);
 		this.workerCount = workerCount;
-		this.commitInterval = commitInterval;
 	}
 
 	@Override
 	public List<B> apply(final List<A> as) {
 		try {
-			return MapWorker.start(workerCount, commitInterval, new ListAggregator<B>(as.size()),
-					as, functor);
+			return MapWorker.start(workerCount, new ListAggregator<B>(as.size()), as, functor);
 		} catch (final InterruptedException e) {
 			throw new RuntimeException(e);
 		}

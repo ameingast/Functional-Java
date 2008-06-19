@@ -19,8 +19,7 @@ public class FilterBenchmark extends BaseBenchmark {
 		new AbstractBenchmark("[5] Filter even") {
 			@Override
 			public void benchmark() {
-				new ParallelFilter<Integer>(Utils.isEvenFunctor, WORKER_COUNT, COMMIT_INTERVAL)
-						.apply(data);
+				new ParallelFilter<Integer>(Utils.isEvenFunctor).apply(data);
 			}
 		};
 
