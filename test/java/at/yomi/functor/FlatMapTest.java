@@ -10,22 +10,22 @@ import java.util.List;
 import org.junit.Test;
 
 public class FlatMapTest extends BaseTest {
-	@SuppressWarnings("unchecked")
-	protected final List<List<Integer>> aas = new ArrayList<List<Integer>>(Arrays.asList(data,
-			data, data));
+    @SuppressWarnings("unchecked")
+    protected final List<List<Integer>> aas = new ArrayList<List<Integer>>(
+        Arrays.asList(data, data, data));
 
-	protected FlatMap<Integer,Integer> getMulTenFlatMap() {
-		return new FlatMap<Integer,Integer>(Utils.mulTenFunctor);
-	}
+    protected FlatMap<Integer, Integer> getMulTenFlatMap() {
+        return new FlatMap<Integer, Integer>(Utils.mulTenFunctor);
+    }
 
-	@Test
-	public void testAddTwoAndFlatten() {
-		final List<Integer> es = getMulTenFlatMap().apply(aas);
-		final List<Integer> results = new ArrayList<Integer>();
+    @Test
+    public void testAddTwoAndFlatten() {
+        final List<Integer> es = getMulTenFlatMap().apply(aas);
+        final List<Integer> results = new ArrayList<Integer>();
 
-		for (final Collection<Integer> as : aas)
-			for (final Integer i : as)
-				results.add(i * 10);
-		assertArrayEquals(results.toArray(), es.toArray());
-	}
+        for (final Collection<Integer> as : aas)
+            for (final Integer i : as)
+                results.add(i * 10);
+        assertArrayEquals(results.toArray(), es.toArray());
+    }
 }

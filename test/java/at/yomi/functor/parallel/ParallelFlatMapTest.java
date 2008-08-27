@@ -5,7 +5,7 @@ import at.yomi.functor.FlatMapTest;
 import at.yomi.functor.Utils;
 
 public class ParallelFlatMapTest extends FlatMapTest {
-	protected FlatMap<Integer,Integer> getMulTenFlatMap() {
-		return new ParallelFlatMap<Integer,Integer>(Utils.mulTenFunctor);
-	}
+    protected FlatMap<Integer, Integer> getMulTenFlatMap() {
+        return new ParallelFlatMap<Integer, Integer>(Utils.mulTenFunctor);
+    }
 }

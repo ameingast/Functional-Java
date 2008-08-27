@@ -10,17 +10,19 @@ import org.junit.Test;
 import at.yomi.pair.Pair;
 
 public class UnZipWithTest extends BaseTest {
-	protected UnZipWith<Integer,Integer,Integer> getPairAdder() {
-		return new UnZipWith<Integer,Integer,Integer>(Utils.safePairAddFunctor);
-	}
+    protected UnZipWith<Integer, Integer, Integer> getPairAdder() {
+        return new UnZipWith<Integer, Integer, Integer>(
+            Utils.safePairAddFunctor);
+    }
 
-	@Test
-	public void testAddPairElements() {
-		final List<Pair<Integer,Integer>> zs = new Zip<Integer,Integer>().apply(data, data);
-		final List<Integer> sum = new ArrayList<Integer>(data.size());
+    @Test
+    public void testAddPairElements() {
+        final List<Pair<Integer, Integer>> zs = new Zip<Integer, Integer>()
+            .apply(data, data);
+        final List<Integer> sum = new ArrayList<Integer>(data.size());
 
-		for (final Pair<Integer,Integer> pair : zs)
-			sum.add(Utils.safeSum(pair.first, pair.second));
-		assertArrayEquals(sum.toArray(), getPairAdder().apply(zs).toArray());
-	}
+        for (final Pair<Integer, Integer> pair : zs)
+            sum.add(Utils.safeSum(pair.first, pair.second));
+        assertArrayEquals(sum.toArray(), getPairAdder().apply(zs).toArray());
+    }
 }

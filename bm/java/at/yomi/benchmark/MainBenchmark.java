@@ -11,24 +11,23 @@ import at.yomi.functor.MapBenchmark;
 import at.yomi.functor.MapFoldBenchmark;
 import at.yomi.functor.SortBenchmark;
 import at.yomi.functor.parallel.PFService;
-import at.yomi.mp.MPBenchmark;
-import at.yomi.mp.MPService;
 
 public class MainBenchmark {
-	private static Class<?>[] classes = { FilterBenchmark.class, FoldBenchmark.class, MapFoldBenchmark.class,
-			MapBenchmark.class, MPBenchmark.class, SortBenchmark.class };
+    private static Class<?>[] classes = { FilterBenchmark.class,
+        FoldBenchmark.class, MapFoldBenchmark.class, MapBenchmark.class,
+        SortBenchmark.class };
 
-	public static void main(final String[] args) throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
-		MPService.startUp();
-		PFService.startUp();
-		for (final Class<?> klass : classes)
-			for (final Method m : klass.getMethods())
-				if (m.isAnnotationPresent(BM.class) && !m.isAnnotationPresent(BMIgnore.class))
-					m.invoke(null);
+    public static void main(final String[] args)
+        throws IllegalArgumentException, IllegalAccessException,
+        InvocationTargetException {
+        PFService.startUp();
+        for (final Class<?> klass : classes)
+            for (final Method m : klass.getMethods())
+                if (m.isAnnotationPresent(BM.class)
+                    && !m.isAnnotationPresent(BMIgnore.class))
+                    m.invoke(null);
 
-		AbstractBenchmark.run();
-		PFService.shutDown();
-		MPService.shutDown();
-	}
+        AbstractBenchmark.run();
+        PFService.shutDown();
+    }
 }

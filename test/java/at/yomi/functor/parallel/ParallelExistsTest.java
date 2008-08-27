@@ -5,7 +5,7 @@ import at.yomi.functor.ExistsTest;
 import at.yomi.functor.Utils;
 
 public class ParallelExistsTest extends ExistsTest {
-	protected Exists<Integer> getEvenExists() {
-		return new ParallelExists<Integer>(Utils.existsEvenFuncor);
-	}
+    protected Exists<Integer> getEvenExists() {
+        return new ParallelExists<Integer>(Utils.existsEvenFuncor);
+    }
 }

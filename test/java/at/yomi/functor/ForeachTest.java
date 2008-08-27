@@ -10,17 +10,17 @@ import org.junit.Test;
 import at.yomi.functor.f.SideEffect1;
 
 public class ForeachTest extends BaseTest {
-	@Test
-	public void testSideEffects() {
-		final List<Integer> bs = new ArrayList<Integer>();
+    @Test
+    public void testSideEffects() {
+        final List<Integer> bs = new ArrayList<Integer>();
 
-		new Foreach<Integer>(new SideEffect1<Integer>() {
-			@Override
-			public void apply(final Integer s) {
-				bs.add(s);
-			}
-		}).apply(data);
+        new Foreach<Integer>(new SideEffect1<Integer>() {
+            @Override
+            public void apply(final Integer s) {
+                bs.add(s);
+            }
+        }).apply(data);
 
-		assertArrayEquals(data.toArray(), bs.toArray());
-	}
+        assertArrayEquals(data.toArray(), bs.toArray());
+    }
 }

@@ -5,7 +5,8 @@ import at.yomi.functor.ZipWith;
 import at.yomi.functor.ZipWithTest;
 
 public class ParallelZipWithTest extends ZipWithTest {
-	protected ZipWith<Integer,Integer,Integer> getZipWith() {
-		return new ParallelZipWith<Integer,Integer,Integer>(Utils.safeSumFunctor);
-	}
+    protected ZipWith<Integer, Integer, Integer> getZipWith() {
+        return new ParallelZipWith<Integer, Integer, Integer>(
+            Utils.safeSumFunctor);
+    }
 }

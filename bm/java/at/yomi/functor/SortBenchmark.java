@@ -7,19 +7,19 @@ import at.yomi.benchmark.BaseBenchmark;
 import at.yomi.utils.Functors;
 
 public abstract class SortBenchmark extends BaseBenchmark {
-	public static void bmSort() {
-		new AbstractBenchmark("Collections.sort(data)") {
-			@Override
-			public void benchmark() throws Exception {
-				Collections.sort(data);
-			}
-		};
+    public static void bmSort() {
+        new AbstractBenchmark("Collections.sort(data)") {
+            @Override
+            public void benchmark() throws Exception {
+                Collections.sort(data);
+            }
+        };
 
-		new AbstractBenchmark("qSort Functor") {
-			@Override
-			public void benchmark() throws Exception {
-				Functors.qSort.apply(data);
-			}
-		};
-	}
+        new AbstractBenchmark("qSort Functor") {
+            @Override
+            public void benchmark() throws Exception {
+                Functors.qSort.apply(data);
+            }
+        };
+    }
 }
