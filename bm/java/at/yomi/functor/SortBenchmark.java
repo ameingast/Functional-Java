@@ -4,9 +4,11 @@ import java.util.Collections;
 
 import at.yomi.benchmark.AbstractBenchmark;
 import at.yomi.benchmark.BaseBenchmark;
+import at.yomi.benchmark.annotations.BM;
 import at.yomi.utils.Functors;
 
 public abstract class SortBenchmark extends BaseBenchmark {
+    @BM
     public static void bmSort() {
         new AbstractBenchmark("Collections.sort(data)") {
             @Override
