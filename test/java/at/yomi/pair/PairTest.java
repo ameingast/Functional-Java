@@ -16,7 +16,7 @@ public class PairTest {
     @Test
     public void testPair() {
         assertEquals("foo", pair.first);
-        assertEquals(123, pair.second);
+        assertEquals(Integer.valueOf(123), pair.second);
     }
 
     @Test

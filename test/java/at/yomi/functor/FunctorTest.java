@@ -17,7 +17,7 @@ public class FunctorTest extends BaseTest {
                 return a + c;
             }
         }.apply(2);
-        assertEquals(k, 4);
+        assertEquals(k, Integer.valueOf(4));
     }
 
     @Test
