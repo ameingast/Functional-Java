@@ -1,9 +1,5 @@
 package at.yomi.functor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import at.yomi.functor.f.ExistsFunctor;
 import at.yomi.functor.f.FilterFunctor;
 import at.yomi.functor.f.FoldFunctor;
@@ -12,6 +8,10 @@ import at.yomi.functor.f.MapFunctor;
 import at.yomi.functor.f.UnZipWithFunctor;
 import at.yomi.functor.f.ZipWithFunctor;
 import at.yomi.pair.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Utils {
     public final static FilterFunctor<Integer> isEvenFunctor = new FilterFunctor<Integer>() {

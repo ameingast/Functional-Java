@@ -1,4 +1,5 @@
 bin
-doc
+target
 .DS_Store
-.metadata
+.idea
+*.iml
